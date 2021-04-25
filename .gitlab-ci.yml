@@ -23,7 +23,7 @@ lint:
     - PATH="$PATH:/root/go/bin"
     - pre-commit run --all-files
 
-test-full:
+test:
   stage: verify
   script:
     - apt install --no-install-recommends -y shunit2

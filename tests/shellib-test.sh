@@ -3,7 +3,7 @@ LANG=C
 
 oneTimeSetUp() {
     # shellcheck disable=SC1091
-    . ./src/shellib.sh
+    . src/shellib.sh
 }
 
 testShellibVersion() {
