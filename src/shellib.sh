@@ -4,7 +4,7 @@ LANG=C
 # CONSTANTS
 # Shellib version
 if [ -z "$SHELLIB_VERSION" ]; then
-    readonly SHELLIB_VERSION="0.0.0"
+    readonly SHELLIB_VERSION="0.0.0" # Bumped automatically by calling tools/set-ver script
 fi
 
 # VARIABLES
