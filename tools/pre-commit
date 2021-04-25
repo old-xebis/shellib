@@ -15,6 +15,7 @@ ECHO_PRE_ERR="$0 ❌"
 # Pre-commit git hook
 
 # Normalize
+rm -rf "build"
 
 # Check codebase changes
 pre-commit

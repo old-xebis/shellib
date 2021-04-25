@@ -12,12 +12,24 @@
 
 Simple Bash scripting library.
 
-## Testing
+## Usage
+
+```bash
+. path/to/shellib.sh
+```
+
+## Development
 
 Run tests:
 
 ```bash
 tools/test
+```
+
+Build:
+
+```bash
+tools/build # Create build directory with shellib.sh file
 ```
 
 ## Authors
