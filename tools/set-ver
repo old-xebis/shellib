@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+set -u
+
+LANG=C
+
+# Set version
+if [ -z "${1-}" ]; then
+    echo "Next version expected as a first parameter" >&2
+    exit 1
+else
+    sed -i "s/SHELLIB_VERSION=\"[^\"]*\"/SHELLIB_VERSION=\"$1\"/" "src/shellib.sh"
+fi

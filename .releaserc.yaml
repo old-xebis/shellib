@@ -1,0 +1,18 @@
+---
+branches: main
+plugins:
+  - "@semantic-release/commit-analyzer"
+  - "@semantic-release/release-notes-generator"
+  - "@semantic-release/changelog"
+  - - "@semantic-release/exec"
+    - prepareCmd: tools/set-ver "${nextRelease.version}" && tools/build && tools/pack "${nextRelease.version}"
+  - - "@semantic-release/git"
+    - assets: src/shelib.sh
+  - - "@semantic-release/gitlab"
+    - assets:
+        path: build/*.deb
+        label: DEB package
+  - - "@semantic-release/github"
+    - assets:
+        path: build/*.deb
+        label: DEB package

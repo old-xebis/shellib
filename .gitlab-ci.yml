@@ -1,0 +1,41 @@
+---
+default:
+  image: ubuntu:latest
+  before_script:
+    - TZ="Europe/Prague"
+    - ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+    - apt update
+    - apt upgrade -y
+
+stages:
+  - verify
+  - release
+
+lint:
+  stage: verify
+  script:
+    - apt install --no-install-recommends -y ca-certificates git golang nodejs npm python3-pip shellcheck
+    - pip3 install gitlint pre-commit yamllint
+    - gitlint
+    - tools/check-sanity
+    - npm install -g markdownlint-cli
+    - GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt
+    - PATH="$PATH:/root/go/bin"
+    - pre-commit run --all-files
+
+test:
+  stage: verify
+  script:
+    - apt install --no-install-recommends -y shunit2
+    - tools/test
+
+release:
+  stage: release
+  script:
+    - apt install --no-install-recommends -y git nodejs npm
+    - npm install -g semantic-release @semantic-release/gitlab @semantic-release/github @semantic-release/git @semantic-release/changelog @semantic-release/exec
+    - npx semantic-release
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
+    - when: never

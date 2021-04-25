@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+set -u
+
+LANG=C
+
+# Build
+BUILD_DIR="build"
+SRC_DIR="src"
+
+rm -rf "$BUILD_DIR"
+mkdir "$BUILD_DIR"
+cp "$SRC_DIR/shellib.sh" "$BUILD_DIR/shellib.sh"

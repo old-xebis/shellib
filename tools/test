@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+set -u
+
+LANG=C
+
+# Test
+shunit2 ./tests/*-test.sh
