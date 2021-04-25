@@ -30,4 +30,4 @@ tools/check-sanity
 pre-commit run --all-files
 
 # Run reduced test set
-echo "$ECHO_PRE_OK Reduced test set"
+tools/test

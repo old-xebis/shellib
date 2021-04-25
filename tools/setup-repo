@@ -124,6 +124,18 @@ else
         fi
     fi
 
+    # Install shunit2 if it's not present
+    if apt search ^shunit2$ 2>/dev/null | grep "shunit2.*installed" >/dev/null; then
+        echo "$ECHO_PRE_OK shunit2 is installed"
+    else
+        if $SUDO apt install -y shunit2; then
+            echo "$ECHO_PRE_INST shunit2 has been installed"
+        else
+            echo "$ECHO_PRE_ERR shunit2 installation failed."
+            exit 1
+        fi
+    fi
+
     # Install pre-commit hook if it's not present or doesn't point to the right location
     if [[ ! -L ".git/hooks/pre-commit" ]] || [ "$(readlink .git/hooks/pre-commit)" != "../../tools/pre-commit" ]; then
         if ln -s ../../tools/pre-commit .git/hooks/pre-commit; then

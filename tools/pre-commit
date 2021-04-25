@@ -20,4 +20,4 @@ ECHO_PRE_ERR="$0 ❌"
 pre-commit
 
 # Run quick test set
-echo "$ECHO_PRE_OK Quick test set"
+tools/test

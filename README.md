@@ -12,6 +12,14 @@
 
 Simple Bash scripting library.
 
+## Testing
+
+Run tests:
+
+```bash
+tools/test
+```
+
 ## Authors
 
 [Martin Bružina](https://bruzina.cz/)
@@ -19,3 +27,14 @@ Simple Bash scripting library.
 ## License
 
 [MIT License](LICENSE)
+
+## Dependencies
+
+- [GitHub - mvdan/sh: A shell parser, formatter, and interpreter with bash support; includes shfmt](https://github.com/mvdan/sh)
+- [GitHub - koalaman/shellcheck: ShellCheck, a static analysis tool for shell scripts](https://github.com/koalaman/shellcheck)
+- [GitHub - kward/shunit2: shUnit2 is a xUnit based unit test framework for Bourne based shell scripts.](https://github.com/kward/shunit2)
+- [GitHub - xebis/repository-template: Well-manageable and well-maintainable repository template.](https://github.com/xebis/repository-template)
+
+## See Also
+
+- [GNU Bash: Bash Reference Manual](https://www.gnu.org/software/bash/manual/html_node/index.html)

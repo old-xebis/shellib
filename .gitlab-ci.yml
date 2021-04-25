@@ -4,6 +4,8 @@ default:
   before_script:
     - TZ="Europe/Prague"
     - ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+    - apt update
+    - apt upgrade -y
 
 stages:
   - verify
@@ -12,8 +14,6 @@ stages:
 lint:
   stage: verify
   script:
-    - apt update
-    - apt upgrade -y
     - apt install --no-install-recommends -y ca-certificates git golang nodejs npm python3-pip shellcheck
     - pip3 install gitlint pre-commit yamllint
     - gitlint
@@ -26,7 +26,8 @@ lint:
 test-full:
   stage: verify
   script:
-    - echo "$0 ✓ Full test set"
+    - apt install --no-install-recommends -y shunit2
+    - tools/test
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
       when: always
@@ -35,7 +36,8 @@ test-full:
 test-nightly:
   stage: verify
   script:
-    - echo "$0 ✓ Nightly test set"
+    - apt install --no-install-recommends -y shunit2
+    - tools/test
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: always
@@ -44,8 +46,6 @@ test-nightly:
 release:
   stage: release
   script:
-    - apt update
-    - apt upgrade -y
     - apt install --no-install-recommends -y git nodejs npm
     - npm install -g semantic-release @semantic-release/gitlab @semantic-release/github @semantic-release/git @semantic-release/changelog
     - npx semantic-release
