@@ -26,10 +26,13 @@ Run tests:
 tools/test
 ```
 
-Build:
+Build, and pack:
 
 ```bash
-tools/build # Create build directory with shellib.sh file
+tools/set-ver "1.5.25-rc0" # Set version at source codes
+# ... Do not forget to git add, commit, push, ... to make it persistent
+tools/build # Create build at ./build
+tools/pack "1.5.25" # Create package at at ./build
 ```
 
 ## Authors
@@ -50,3 +53,4 @@ tools/build # Create build directory with shellib.sh file
 ## See Also
 
 - [GNU Bash: Bash Reference Manual](https://www.gnu.org/software/bash/manual/html_node/index.html)
+- [The Debian GNU/Linux FAQ: Chapter 7. Basics of the Debian package management system](https://www.debian.org/doc/manuals/debian-faq/pkg-basics.en.html)
