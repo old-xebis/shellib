@@ -28,26 +28,12 @@ test-full:
   script:
     - apt install --no-install-recommends -y shunit2
     - tools/test
-  rules:
-    - if: $CI_PIPELINE_SOURCE != "schedule"
-      when: always
-    - when: never
-
-test-nightly:
-  stage: verify
-  script:
-    - apt install --no-install-recommends -y shunit2
-    - tools/test
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: always
-    - when: never
 
 release:
   stage: release
   script:
     - apt install --no-install-recommends -y git nodejs npm
-    - npm install -g semantic-release @semantic-release/gitlab @semantic-release/github @semantic-release/git @semantic-release/changelog
+    - npm install -g semantic-release @semantic-release/gitlab @semantic-release/github @semantic-release/git @semantic-release/changelog @semantic-release/exec
     - npx semantic-release
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
