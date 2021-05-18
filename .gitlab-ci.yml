@@ -4,8 +4,8 @@ default:
   before_script:
     - TZ="Europe/Prague"
     - ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-    - apt update
-    - apt upgrade -y
+    - apt-get update
+    - apt-get upgrade -y
 
 stages:
   - verify
@@ -14,7 +14,7 @@ stages:
 lint:
   stage: verify
   script:
-    - apt install --no-install-recommends -y ca-certificates git golang nodejs npm python3-pip shellcheck
+    - apt-get install --no-install-recommends -y ca-certificates git golang nodejs npm python3-pip shellcheck
     - pip3 install gitlint pre-commit yamllint
     - gitlint
     - tools/check-sanity
@@ -26,13 +26,13 @@ lint:
 test:
   stage: verify
   script:
-    - apt install --no-install-recommends -y shunit2
+    - apt-get install --no-install-recommends -y shunit2
     - tools/test
 
 release:
   stage: release
   script:
-    - apt install --no-install-recommends -y git nodejs npm
+    - apt-get install --no-install-recommends -y git nodejs npm
     - npm install -g semantic-release @semantic-release/gitlab @semantic-release/github @semantic-release/git @semantic-release/changelog @semantic-release/exec
     - npx semantic-release
   rules:
