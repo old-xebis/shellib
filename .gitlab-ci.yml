@@ -8,11 +8,11 @@ default:
     - apt-get upgrade -y
 
 stages:
-  - verify
-  - release
+  - validate
+  - deploy
 
 lint:
-  stage: verify
+  stage: validate
   script:
     - apt-get install --no-install-recommends -y ca-certificates git golang nodejs npm python3-pip shellcheck
     - pip3 install gitlint pre-commit yamllint
@@ -21,16 +21,16 @@ lint:
     - npm install -g markdownlint-cli
     - GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt
     - PATH="$PATH:/root/go/bin"
-    - pre-commit run --all-files
+    - SKIP=gitlab-ci-linter pre-commit run --all-files # Temporary workaround until https://gitlab.com/devopshq/gitlab-ci-linter/-/issues/3 is fixed
 
 test:
-  stage: verify
+  stage: validate
   script:
     - apt-get install --no-install-recommends -y shunit2
     - tools/test
 
 release:
-  stage: release
+  stage: deploy
   script:
     - apt-get install --no-install-recommends -y git nodejs npm
     - npm install -g semantic-release @semantic-release/gitlab @semantic-release/github @semantic-release/git @semantic-release/changelog @semantic-release/exec
