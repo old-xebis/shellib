@@ -185,6 +185,13 @@ else
     else
         echo "$ECHO_PRE_OK pre-push hook is installed."
     fi
+
+    # Check if GL_TOKEN is set
+    if [ -z "${GL_TOKEN:-}" ]; then
+        echo "$ECHO_PRE_WARN environment variable GL_TOKEN is not set, gitlab-ci-linter will be skipped."
+    else
+        echo "$ECHO_PRE_OK GL_TOKEN is set."
+    fi
 fi
 
 popd
