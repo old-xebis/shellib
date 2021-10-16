@@ -24,6 +24,8 @@ Simple Bash scripting library.
 - [Contributing](#contributing)
   - [Testing](#testing)
   - [Packaging](#packaging)
+- [To-Do list](#to-do-list)
+- [Roadmap](#roadmap)
 - [Credits and Acknowledgments](#credits-and-acknowledgments)
 - [Copyright and Licensing](#copyright-and-licensing)
 - [Changelog and News](#changelog-and-news)
@@ -69,6 +71,14 @@ tools/set-ver "1.5.25-rc0" # Set version at source codes
 tools/build # Create build at ./build
 tools/pack "1.5.25" # Create package at at ./build
 ```
+
+## To-Do list
+
+- [ ] Replace `shfmt` exact version `v3.3.1` at [.gitlab-ci.yml](.gitlab-ci.yml) with `latest`
+
+## Roadmap
+
+- [ ] Speed up CI/CD with a set of Docker images with pre-installed dependencies for each CI/CD stage
 
 ## Credits and Acknowledgments
 
