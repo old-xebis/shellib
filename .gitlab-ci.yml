@@ -9,7 +9,7 @@ default:
 
 stages:
   - validate
-  - deploy
+  - release
 
 lint:
   stage: validate
@@ -30,7 +30,7 @@ test:
     - tools/test
 
 release:
-  stage: deploy
+  stage: release
   script:
     - apt-get install --no-install-recommends -y curl git npm
     - curl -sL https://deb.nodesource.com/setup_14.x -o setup_14.sh
@@ -40,3 +40,4 @@ release:
     - npx semantic-release
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  resource_group: release
