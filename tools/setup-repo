@@ -12,6 +12,8 @@ ECHO_PRE_OK="$0 ✓"
 # shellcheck disable=SC2034
 ECHO_PRE_INST="$0 +"
 # shellcheck disable=SC2034
+ECHO_PRE_WARN="$0 !"
+# shellcheck disable=SC2034
 ECHO_PRE_ERR="$0 ❌"
 
 pushd "$REPO_DIR"
