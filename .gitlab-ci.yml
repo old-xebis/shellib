@@ -21,6 +21,7 @@ lint:
     - GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt@v3.3.1
     - PATH="$PATH:/root/go/bin"
     - GITLAB_PRIVATE_TOKEN="$GL_TOKEN" pre-commit run --all-files
+  interruptible: true
   rules:
     - when: always
 
@@ -29,6 +30,9 @@ test:
   script:
     - apt-get install --no-install-recommends -y shunit2
     - tools/test
+  interruptible: true
+  rules:
+    - when: always
 
 release:
   stage: release
