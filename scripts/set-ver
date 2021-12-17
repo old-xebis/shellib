@@ -1,14 +1,26 @@
 #!/usr/bin/env bash
-set -e
-set -o pipefail
-set -u
-
+set -euo pipefail
+IFS=$'\n\t'
 LANG=C
 
-# Set version
-if [ -z "${1-}" ]; then
-    echo "Next version expected as the first parameter" >&2
-    exit 1
-else
-    sed -i "s/SHELLIB_VERSION=\"[^\"]*\"/SHELLIB_VERSION=\"$1\"/" "src/shellib.sh"
+# shellcheck source=./lib.sh
+. "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib.sh"
+
+# Set Shellib version
+function set_shellib_version {
+    if [ -z "${1+x}" ]; then
+        err 'Next version expected as the first parameter'
+        return "$status_err"
+    else
+        local regex_from='shellib_version=".*"'
+        local regex_to="shellib_version=\"$1\""
+
+        echo "s/$regex_from/$regex_to/"
+        sed -i "s/$regex_from/$regex_to/" 'src/shellib.sh'
+    fi
+}
+
+# Skip functions execution under test
+if [ "${BASH_SOURCE[0]}" == "${0}" ]; then
+    set_shellib_version "$@"
 fi

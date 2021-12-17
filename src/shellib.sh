@@ -3,7 +3,8 @@
 # Global constants
 # shellcheck disable=SC2034
 {
-    readonly shellib_version="0.0.0" # Bumped up automatically by calling scripts/set-ver
+    # Bumped up automatically by calling scripts/set-ver
+    readonly shellib_version="0.0.0"
 } 2>/dev/null
 
 # Functions

@@ -91,7 +91,12 @@ Please read [CONTRIBUTING](CONTRIBUTING.md) for details on our code of conduct, 
 - Stuff inherited from [repository-template](https://github.com/xebis/repository-template) should be tested there.
 - Make sure all _non-inherited_ `scripts/*` work as expected, testing checklist:
 
-\#TODO
+- `scripts/*` scripts
+  - [ ] [`scripts/build`](scripts/build)
+  - [ ] [`scripts/pack`](scripts/pack)
+  - [ ] [`scripts/set-ver`](scripts/set-ver) - covered by unit tests
+- GitLab CI
+  - [ ] Built DEB package, see [Installation And Configuration](#installation-and-configuration)
 
 #### Test at Docker Container
 
