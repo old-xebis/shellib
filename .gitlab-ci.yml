@@ -1,48 +1,72 @@
 ---
 default:
-  image: ubuntu:latest
-  before_script:
-    - TZ="Europe/Prague"
-    - ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-    - apt-get update && apt-get upgrade -y
+  image: alpine:latest
+  before_script: &default_before_script
+    - apk -U upgrade
 
 stages:
   - validate
   - release
 
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
 lint:
   stage: validate
-  script:
-    - apt-get install --no-install-recommends -y ca-certificates git golang nodejs npm python3-pip shellcheck
-    - pip3 install gitlint pre-commit yamllint
-    - gitlint
-    - tools/check-sanity
+  variables:
+    PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/pre-commit
+  before_script:
+    - *default_before_script
+    - apk add bash git go grep npm py-pip python3-dev shellcheck shfmt
+    - pip install pre-commit
     - npm install -g markdownlint-cli
-    - GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt@v3.3.1
-    - PATH="$PATH:/root/go/bin"
-    - GITLAB_PRIVATE_TOKEN="$GL_TOKEN" pre-commit run --all-files
+  script:
+    - |
+      if [ -z "${GL_TOKEN:-}" ]; then
+          SKIP=gitlab-ci-linter pre-commit run -a --hook-stage manual
+      else
+          GITLAB_PRIVATE_TOKEN="$GL_TOKEN" pre-commit run -a --hook-stage manual
+      fi
+  cache:
+    paths:
+      - $PRE_COMMIT_HOME
+    when: always
   interruptible: true
   rules:
     - when: always
 
-test:
+test-full:
   stage: validate
+  before_script:
+    - *default_before_script
+    - apk add bats
   script:
-    - apt-get install --no-install-recommends -y shunit2
-    - tools/test
+    - scripts/test full
   interruptible: true
   rules:
-    - when: always
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+
+test-nightly:
+  stage: validate
+  before_script:
+    - *default_before_script
+    - apk add bats
+  script:
+    - scripts/test nightly
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 release:
   stage: release
+  image:
+    name: node:alpine
+    entrypoint: [""]
+  before_script:
+    - *default_before_script
+    - apk add git
   script:
-    - apt-get install --no-install-recommends -y curl git npm
-    - curl -sL https://deb.nodesource.com/setup_14.x -o setup_14.sh
-    - bash ./setup_14.sh
-    - apt-get install --no-install-recommends -y nodejs
     - npm install -g semantic-release @semantic-release/gitlab @semantic-release/github @semantic-release/git @semantic-release/changelog @semantic-release/exec
     - npx semantic-release
   rules:
-    - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^(((0|[1-9]\d*)\.)(((0|[1-9]\d*|x)\.)?x)|main|next(-major)?|beta|alpha)$/ && $CI_PIPELINE_SOURCE != "schedule"
   resource_group: release

@@ -1,5 +1,10 @@
 ---
+default_stages: [commit, manual, merge-commit, push]
 repos:
+  - repo: https://github.com/jorisroovers/gitlint
+    rev: v0.17.0
+    hooks:
+      - id: gitlint
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
     hooks:
@@ -25,6 +30,7 @@ repos:
       - id: check-mailmap
       - id: forbid-binary
       - id: script-must-have-extension
+        exclude: .*\.bats$
       - id: script-must-not-have-extension
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.30.0
@@ -41,13 +47,29 @@ repos:
       - id: gitlab-ci-linter
   - repo: local
     hooks:
+      - id: anti-todo
+        name: anti-todo
+        entry: (?i)#\s*\b(wip|todo|tbd)\b
+        language: pygrep
+        types: [text]
+        stages: [push, manual]
       - id: shfmt
         name: shfmt
         entry: shfmt -i 4
         language: system
         types: [shell]
+        exclude: .*\.bats$
+      - id: shfmt-bats
+        name: shfmt-bats
+        entry: shfmt -ln bats -i 4
+        language: system
+        files: .*\.bats$
       - id: shellcheck
         name: shellcheck
-        entry: shellcheck
+        entry: shellcheck -x
         language: system
         types: [shell]
+  - repo: https://github.com/zricethezav/gitleaks
+    rev: v8.2.0
+    hooks:
+      - id: gitleaks
