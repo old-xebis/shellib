@@ -6,8 +6,10 @@ LANG=C
 setup() {
     load 'helpers/bats-support/load'
     load 'helpers/bats-assert/load'
+
+    . scripts/pack
 }
 
 @test 'scripts/pack test' {
-    skip #TODO
+    skip
 }

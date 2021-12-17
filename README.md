@@ -105,13 +105,13 @@ To test your changes in a different environment, you might try to run a Docker c
 Run the container:
 
 ```bash
-sudo docker run -it --rm -v "$(pwd)":/repository-template alpine:latest # Create disposal docker container
+sudo docker run -it --rm -v "$(pwd)":/shellib alpine:latest # Create disposal docker container
 ```
 
 In the container:
 
 ```bash
-cd repository-template
+cd shellib
 # Set variables GL_TOKEN and GH_TOKEN when needed
 # Put here commands from .gitlab-ci.yml job:before_script and job:script
 # For example job test-full:

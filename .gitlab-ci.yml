@@ -59,13 +59,12 @@ test-nightly:
 release:
   stage: release
   image:
-    name: node:alpine
+    name: node:latest
     entrypoint: [""]
   before_script:
-    - *default_before_script
-    - apk add git
-  script:
+    - apt-get update && apt-get upgrade -y
     - npm install -g semantic-release @semantic-release/gitlab @semantic-release/github @semantic-release/git @semantic-release/changelog @semantic-release/exec
+  script:
     - npx semantic-release
   rules:
     - if: $CI_COMMIT_BRANCH =~ /^(((0|[1-9]\d*)\.)(((0|[1-9]\d*|x)\.)?x)|main|next(-major)?|beta|alpha)$/ && $CI_PIPELINE_SOURCE != "schedule"
