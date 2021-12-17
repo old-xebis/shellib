@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+LANG=C
+
+# shellcheck source=./lib.sh
+. "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib.sh"
+
+# Set Shellib version
+function set_shellib_version {
+    if [ -z "${1+x}" ]; then
+        err 'Next version expected as the first parameter'
+        return "$status_err"
+    else
+        local regex_from='shellib_version=".*"'
+        local regex_to="shellib_version=\"$1\""
+
+        echo "s/$regex_from/$regex_to/"
+        sed -i "s/$regex_from/$regex_to/" 'src/shellib.sh'
+    fi
+}
+
+# Skip functions execution under test
+if [ "${BASH_SOURCE[0]}" == "${0}" ]; then
+    set_shellib_version "$@"
+fi

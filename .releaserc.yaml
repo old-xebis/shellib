@@ -1,13 +1,21 @@
 ---
-branches: main
+branches:
+  - +([0-9])?(.{+([0-9]),x}).x
+  - main
+  - next
+  - next-major
+  - name: beta
+    prerelease: true
+  - name: alpha
+    prerelease: true
 plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
   - "@semantic-release/changelog"
   - - "@semantic-release/exec"
-    - prepareCmd: tools/set-ver "${nextRelease.version}" && tools/build && tools/pack "${nextRelease.version}"
+    - prepareCmd: scripts/set-ver "${nextRelease.version}" && scripts/build && scripts/pack "${nextRelease.version}"
   - - "@semantic-release/git"
-    - assets: src/shelib.sh
+    - assets: [CHANGELOG.md src/shellib.sh]
   - - "@semantic-release/gitlab"
     - assets:
         path: build/*.deb

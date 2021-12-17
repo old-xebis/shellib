@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+LANG=C
+
+# shellcheck source=./lib.sh
+. "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib.sh"
+
+# Set package metadata
+# Prepare package
+# Prepare package contents
+# Prepare package metadata
+# Create package
+# Clean up
+
+# Output deb package control
+#   #1 ... package name
+#   #2 ... full package version
+#   #3 ... package architecture
+#   #4 ... package section
+#   #5 ... package homepage
+#   #6 ... package maintainer
+#   #7 ... package description
+# Output: deb package control
+function out_deb_pkg_control() {
+    cat <<EOF
+Package: $1
+Version: $2
+Architecture: $3
+Section: $4
+Homepage: $5
+Maintainer: $6
+Description: $7
+EOF
+}
+
+# Pack to a DEB package
+function pack_deb() {
+    # Prepare package metadata
+    local package_name="${CI_PROJECT_NAME:-${PWD##*/}}"
+    local package_ver="$1"
+    local package_arch='all'
+    local package_file="${package_name}_${package_ver}_$package_arch"
+    local package_section='libs'
+    local package_homepage="${CI_PROJECT_URL:-}"
+    if [ -n "${GITLAB_USER_NAME:-}" ]; then
+        package_maintainer="$GITLAB_USER_NAME"
+        if [ -n "${GITLAB_USER_EMAIL:-}" ]; then
+            package_maintainer="$package_maintainer <$GITLAB_USER_EMAIL>"
+        fi
+    else
+        if [ -n "${USER:-}" ]; then
+            package_maintainer="$(getent passwd "$USER" | cut -d ':' -f 5 | cut -d ',' -f 1)"
+        else
+            package_maintainer='Unknown'
+        fi
+    fi
+    package_desc="${CI_PROJECT_TITLE:-${PWD##*/}}
+ Simple Bash scripting library."
+
+    # Prepare package content
+    local build_dir='build'
+    local package_root="$build_dir/$package_file"
+    local package_deb_dir="$package_root/DEBIAN"
+    if [ ! -f "$build_dir/shellib.sh" ]; then
+        err "$build_dir/shellib.sh does not exist, nothing to pack"
+        return "$status_err"
+    fi
+
+    # Create package content
+    mkdir -p "$package_deb_dir"
+    local package_lib_dir="$package_root/usr/lib"
+    mkdir -p "$package_lib_dir"
+    cp "$build_dir/shellib.sh" "$package_lib_dir/shellib.sh"
+
+    # Create control file
+    out_deb_pkg_control "$package_name" "$package_ver" "$package_arch" "$package_section" "$package_homepage" "$package_maintainer" "$package_desc" >"$package_deb_dir/control"
+
+    # Create package
+    (
+        cd "$build_dir" || exit "$status_err"
+        dpkg-deb --build --root-owner-group "$package_file"
+    )
+
+    # Clean up
+    rm -rf "$package_root"
+}
+
+# Main
+function main {
+    if [ -z "${1+x}" ]; then
+        err 'Next version expected as the first parameter'
+        return "$status_err"
+    fi
+    pack_deb "$1"
+}
+
+# Skip functions execution under test
+if [ "${BASH_SOURCE[0]}" == "${0}" ]; then
+    main "$@"
+fi

@@ -1,19 +1,15 @@
-#!/usr/bin/env bash
-LANG=C
+# shellcheck shell=bash
 
-# CONSTANTS
-# Shellib version
-if [ -z "$SHELLIB_VERSION" ]; then
-    readonly SHELLIB_VERSION="0.0.0" # Bumped automatically by calling tools/set-ver script
-fi
+# Global constants
+# shellcheck disable=SC2034
+{
+    # Bumped up automatically by calling scripts/set-ver
+    readonly shellib_version="0.0.0"
+} 2>/dev/null
 
-# VARIABLES
-# Return
-__RETURN=""
-
-# FUNCTIONS
-# Get Shellib version
-get_shellib_version() {
-    # shellcheck disable=SC2034
-    __RETURN="$SHELLIB_VERSION"
+# Functions
+# Output "Shellib version" to stdout
+# Stdout: Shellib version
+function get_version() {
+    echo "$shellib_version"
 }

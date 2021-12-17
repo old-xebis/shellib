@@ -14,15 +14,19 @@
 
 Simple Bash scripting library.
 
+The goal of the library is to have a small yet useful set of functions. It is **not** intended to obscure or replace Bash idioms.
+
 **The project is under active development.**
 
 <!-- omit in toc -->
 ## Table of Contents
 
+- [Features](#features)
 - [Installation and Configuration](#installation-and-configuration)
 - [Usage](#usage)
 - [Contributing](#contributing)
   - [Testing](#testing)
+    - [Test at Docker Container](#test-at-docker-container)
   - [Packaging](#packaging)
 - [To-Do list](#to-do-list)
 - [Roadmap](#roadmap)
@@ -31,22 +35,50 @@ Simple Bash scripting library.
 - [Changelog and News](#changelog-and-news)
 - [Notes and References](#notes-and-references)
   - [Dependencies](#dependencies)
+  - [Recommendations](#recommendations)
   - [Further Reading](#further-reading)
+
+## Features
+
+- `get_version`: Outputs Shellib version to stdout
 
 ## Installation and Configuration
 
 ```bash
-SHELLIB_LATEST_DEB_URL=$(curl https://gitlab.com/api/v4/projects/26143455/releases | jq --raw-output '.[0].assets.links | .[0].direct_asset_url') # Get the latest deb package URL
-SHELLIB_LATEST_DEB_FILE="/tmp/shellib_latest_all.deb" # Set the package destination
-curl "$SHELLIB_LATEST_DEB_URL" -o "$SHELLIB_LATEST_DEB_FILE" # Download the latest deb package
-sudo dpkg -i "$SHELLIB_LATEST_DEB_FILE" # Install the package
-rm "$SHELLIB_LATEST_DEB_FILE" # Clean up after yourself
+shellib_latest_deb_url=$(curl https://gitlab.com/api/v4/projects/26143455/releases | jq --raw-output '.[0].assets.links | .[0].direct_asset_url') # Get the latest deb package URL
+shellib_downloaded_deb_file=$(mktemp --suffix='deb') # Set the package download destination
+curl "$shellib_latest_deb_url" -o "$shellib_downloaded_deb_file" # Download the latest deb package
+sudo dpkg -i "$shellib_downloaded_deb_file" # Install the package
+rm "$shellib_downloaded_deb_file" # Clean up after yourself
 ```
 
 ## Usage
 
+Recommended, but not necessary:
+
+```bash
+#!/usr/bin/env bash
+
+# Use Bash Strict Mode, see http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+
+# Set safe basic locale
+LANG=C
+```
+
+Source the library:
+
 ```bash
 . /usr/lib/shellib.sh
+```
+
+Use library functions:
+
+```bash
+out 'Hello world!' '😀'
+# Result is similar to:
+# your/script 😀 Hello world!
 ```
 
 ## Contributing
@@ -55,10 +87,40 @@ Please read [CONTRIBUTING](CONTRIBUTING.md) for details on our code of conduct, 
 
 ### Testing
 
-Run tests:
+- Git hooks check a lot of things for you, including running automated tests `scripts/test full`
+- Stuff inherited from [repository-template](https://github.com/xebis/repository-template) should be tested there.
+- Make sure all _non-inherited_ `scripts/*` work as expected, testing checklist:
+
+- `scripts/*` scripts
+  - [ ] [`scripts/build`](scripts/build) - covered by unit tests
+  - [ ] [`scripts/pack`](scripts/pack)
+  - [ ] [`scripts/set-ver`](scripts/set-ver) - covered by unit tests
+- GitLab CI
+  - [ ] Built DEB package, see [Installation And Configuration](#installation-and-configuration)
+
+#### Test at Docker Container
+
+To test your changes in a different environment, you might try to run a Docker container and test it from there.
+
+Run the container:
 
 ```bash
-tools/test
+sudo docker run -it --rm -v "$(pwd)":/shellib alpine:latest # Create disposal docker container
+```
+
+In the container:
+
+```bash
+cd shellib
+# Set variables GL_TOKEN and GH_TOKEN when needed
+# Put here commands from .gitlab-ci.yml job:before_script and job:script
+# For example job test-full:
+apk -U upgrade
+apk add bats
+bats tests
+# Result is similar to:
+# 1..1
+# ok 1 dummy test
 ```
 
 ### Packaging
@@ -66,19 +128,22 @@ tools/test
 Build, and pack:
 
 ```bash
-tools/set-ver "1.5.25-rc0" # Set version at source codes
-# ... Do not forget to git add, commit, push, ... to make it persistent
-tools/build # Create build at ./build
-tools/pack "1.5.25" # Create package at at ./build
+ver_next='1.5.25-alpha'
+scripts/set-ver "$ver_next" # Set version at source codes
+# ... Do not forget to commit the change
+scripts/build # Create build at ./build
+scripts/pack "$ver_next" # Create package at ./build
 ```
 
 ## To-Do list
 
-- [ ] Replace `shfmt` exact version `v3.3.1` at [.gitlab-ci.yml](.gitlab-ci.yml) with `latest`
+- [ ] Fix workaround for pre-commit `jumanjihouse/pre-commit-hooks` hook `script-must-have-extension` - `*.bats` shouldn't be excluded
 
 ## Roadmap
 
-- [ ] Speed up CI/CD with a set of Docker images with pre-installed dependencies for each CI/CD stage
+- [ ] Find a satisfactory way how to manage (list, install, update) dependencies across various distributions and package managers
+- [ ] Add [pre-commit meta hooks](https://pre-commit.com/#meta-hooks)
+- [ ] Speed up CI/CD by preparing a set of Docker images with pre-installed dependencies for each CI/CD stage, or by cache for `apk`, `pip`, and `npm`
 
 ## Credits and Acknowledgments
 
@@ -97,10 +162,17 @@ tools/pack "1.5.25" # Create package at at ./build
 
 ### Dependencies
 
+- [GitHub - xebis/repository-template: Well-manageable and well-maintainable repository template.](https://github.com/xebis/repository-template) - a lot of stuff is inherited from there, including **git hooks**, **GitLab CI**, scripts, or **Visual Studio Code** suggested extensions
 - [GitHub - mvdan/sh: A shell parser, formatter, and interpreter with bash support; includes shfmt](https://github.com/mvdan/sh)
 - [GitHub - koalaman/shellcheck: ShellCheck, a static analysis tool for shell scripts](https://github.com/koalaman/shellcheck)
-- [GitHub - kward/shunit2: shUnit2 is a xUnit based unit test framework for Bourne based shell scripts.](https://github.com/kward/shunit2)
-- [GitHub - xebis/repository-template: Well-manageable and well-maintainable repository template.](https://github.com/xebis/repository-template) - contains `pre-commit`, `semantic-release`, and `Visual Studio Code` suggested extensions
+- [GitHub - bats-core/bats-core: Bash Automated Testing System](https://github.com/bats-core/bats-core)
+  - [GitHub - bats-core/bats-support: Supporting library for Bats test helpers](https://github.com/bats-core/bats-support)
+  - [GitHub - bats-core/bats-assert: Common assertions for Bats](https://github.com/bats-core/bats-assert)
+  - [GitHub - bats-core/bats-file: Common filesystem assertions for Bats](https://github.com/bats-core/bats-file)
+
+### Recommendations
+
+- [aaron maxwell: Use Bash Strict Mode (Unless You Love Debugging)](http://redsymbol.net/articles/unofficial-bash-strict-mode/)
 
 ### Further Reading
 
