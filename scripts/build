@@ -1,14 +1,22 @@
 #!/usr/bin/env bash
-set -e
-set -o pipefail
-set -u
-
+set -euo pipefail
+IFS=$'\n\t'
 LANG=C
 
-# Build
-BUILD_DIR="build"
-SRC_DIR="src"
+# shellcheck source=./lib.sh
+. "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib.sh"
 
-rm -rf "$BUILD_DIR"
-mkdir "$BUILD_DIR"
-cp "$SRC_DIR/shellib.sh" "$BUILD_DIR/shellib.sh"
+# Set Shellib version
+function build {
+    local build_dir="build"
+    local src_dir="src"
+
+    rm -rf "$build_dir"
+    mkdir "$build_dir"
+    cp "$src_dir/shellib.sh" "$build_dir/shellib.sh"
+}
+
+# Skip functions execution under test
+if [ "${BASH_SOURCE[0]}" == "${0}" ]; then
+    build
+fi

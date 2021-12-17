@@ -92,7 +92,7 @@ Please read [CONTRIBUTING](CONTRIBUTING.md) for details on our code of conduct, 
 - Make sure all _non-inherited_ `scripts/*` work as expected, testing checklist:
 
 - `scripts/*` scripts
-  - [ ] [`scripts/build`](scripts/build)
+  - [ ] [`scripts/build`](scripts/build) - covered by unit tests
   - [ ] [`scripts/pack`](scripts/pack)
   - [ ] [`scripts/set-ver`](scripts/set-ver) - covered by unit tests
 - GitLab CI
