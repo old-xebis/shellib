@@ -1,5 +1,11 @@
 # shellcheck shell=bash
 
+# Make sure the lib is sourced as Bash
+if [ -z "$BASH" ]; then
+    echo "$0 ✗ Must be sourced as Bash" >&2
+    return 1
+fi
+
 # Global constants
 # shellcheck disable=SC2034
 {
