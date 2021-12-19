@@ -24,7 +24,7 @@ fi
 {
     # Global constants
     # Bumped up automatically by calling scripts/set-ver
-    readonly shellib_version="0.0.0"
+    readonly shellib_version="0.3.0"
 
     # Status codes
     readonly status_ok=0
