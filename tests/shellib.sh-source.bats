@@ -14,3 +14,13 @@ setup() {
     assert_success
     refute_output
 }
+
+@test 'src/shellib.sh double source test' {
+    export TEST_MOCK_ARGV=('test/script')
+
+    . src/shellib.sh
+    run . src/shellib.sh
+
+    assert_failure
+    assert_output "test/script 🛈 Shouldn't be sourced multiple times"
+}
