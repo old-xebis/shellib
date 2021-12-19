@@ -15,12 +15,14 @@ plugins:
   - - "@semantic-release/exec"
     - prepareCmd: scripts/set-ver "${nextRelease.version}" && scripts/build && scripts/pack "${nextRelease.version}"
   - - "@semantic-release/git"
-    - assets: [CHANGELOG.md src/shellib.sh]
+    - assets:
+        - CHANGELOG.md
+        - src/shellib.sh
   - - "@semantic-release/gitlab"
     - assets:
         path: build/*.deb
-        label: DEB package
+        label: deb package
   - - "@semantic-release/github"
     - assets:
         path: build/*.deb
-        label: DEB package
+        label: deb package
