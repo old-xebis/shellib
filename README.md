@@ -41,6 +41,8 @@ The goal of the library is to have a small yet useful set of functions. It is **
 ## Features
 
 - `get_version`: Outputs Shellib version to stdout
+- `out 'message' ['symbol' | $symbol_ok ['script' | $0]]`: Outputs "script symbol message" to stdout
+- `err 'message' ['symbol' | $symbol_ok ['script' | $0]]`: Output "script symbol message" to stderr
 
 ## Installation and Configuration
 
