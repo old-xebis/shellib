@@ -22,6 +22,8 @@ The goal of the library is to have a small yet useful set of functions. It is **
 ## Table of Contents
 
 - [Features](#features)
+  - [Functions](#functions)
+  - [Constants](#constants)
 - [Installation and Configuration](#installation-and-configuration)
   - [Deb Package](#deb-package)
   - [Git Submodule](#git-submodule)
@@ -42,9 +44,16 @@ The goal of the library is to have a small yet useful set of functions. It is **
 
 ## Features
 
-- `get_version`: Outputs Shellib version to stdout
-- `out 'message' ['symbol' | $symbol_ok ['script' | $0]]`: Outputs "script symbol message" to stdout
+### Functions
+
+- `get_version`: Output Shellib version to stdout
+- `out 'message' ['symbol' | $symbol_ok ['script' | $0]]`: Output "script symbol message" to stdout
 - `err 'message' ['symbol' | $symbol_ok ['script' | $0]]`: Output "script symbol message" to stderr
+
+### Constants
+
+- Status codes: `$status_ok`, `$status_err`
+- Symbols: `$symbol_ok` ✓, `$symbol_todo` ☐, `$symbol_doing` …, `$symbol_done` 🗹, `$symbol_failed` ☒, `$symbol_tip` 💡, `$symbol_notice` 🛈, `$symbol_warn` ⚠, `$symbol_sec` ☠, `$symbol_err` ✗
 
 ## Installation and Configuration
 
@@ -101,7 +110,7 @@ Source the library:
 ```bash
 . /usr/lib/shellib.sh # When installed as a deb package
 # OR
-. path/to/submodule/shellib/src/shellib.sh # When added as a git submodule
+. path/to/submodule/shellib/shellib.sh # When added as a git submodule
 ```
 
 Use library functions:
