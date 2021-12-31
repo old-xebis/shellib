@@ -1,3 +1,16 @@
+# [0.4.0](https://gitlab.com/xebis/shellib/compare/v0.3.0...v0.4.0) (2021-12-31)
+
+
+### Bug Fixes
+
+* shellib couldn't be sourced outside of the repository root ([9e70ed4](https://gitlab.com/xebis/shellib/commit/9e70ed4aae5e483fcd838b1b786fe5bfdbf00b11))
+
+
+### Features
+
+* modular shellib ([5ed2d2f](https://gitlab.com/xebis/shellib/commit/5ed2d2f1a7840a53c4cf4d1ef14711ac316101c5))
+* separate output functions from global module ([b89ff2a](https://gitlab.com/xebis/shellib/commit/b89ff2aae275d196ed0d38e83046b48fe60466a7))
+
 # [0.3.0](https://gitlab.com/xebis/shellib/compare/v0.2.0...v0.3.0) (2021-12-19)
 
 
