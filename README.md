@@ -44,7 +44,7 @@ The goal of the library is to have a small yet useful set of functions. It is **
 
 - `get_version`: Outputs Shellib version to stdout
 - `out 'message' ['symbol' | $symbol_ok ['script' | $0]]`: Outputs "script symbol message" to stdout
-- `err 'message' ['symbol' | $symbol_ok ['script' | $0]]`: Output "script symbol message" to stderr
+- `err 'message' ['symbol' | $symbol_ok ['script' | $0]]`: Outputs "script symbol message" to stderr
 
 ## Installation and Configuration
 
@@ -101,7 +101,7 @@ Source the library:
 ```bash
 . /usr/lib/shellib.sh # When installed as a deb package
 # OR
-. path/to/submodule/shellib/src/shellib.sh # When added as a git submodule
+. path/to/submodule/shellib/shellib.sh # When added as a git submodule
 ```
 
 Use library functions:

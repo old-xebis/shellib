@@ -8,12 +8,14 @@ LANG=C
 
 # Set Shellib version
 function build {
-    local build_dir="build"
-    local src_dir="src"
+    local build_dir='build'
 
     rm -rf "$build_dir"
     mkdir "$build_dir"
-    cp "$src_dir/shellib.sh" "$build_dir/shellib.sh"
+    cp 'shellib.sh' "$build_dir/shellib.sh"
+
+    sed 's/. src\/globals.sh/\n# Source src\/globals.sh/g' -i "$build_dir/shellib.sh"
+    cat src/globals.sh >>"$build_dir/shellib.sh"
 }
 
 # Skip functions execution under test

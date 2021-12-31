@@ -13,8 +13,8 @@ setup() {
 }
 
 @test 'scripts/set-ver set_shellib_version success test' {
-    local version_file='src/shellib.sh'
-    local backup_file='src/shellib.sh.bup'
+    local version_file='src/globals.sh'
+    local backup_file='src/globals.sh.bup'
     local version='0.0.0+test-set_shellib_version'
 
     cp "$version_file" "$backup_file"
@@ -23,7 +23,11 @@ setup() {
     mv "$backup_file" "$version_file"
 
     assert_success
-    assert_output "s/shellib_version=\".*\"/shellib_version=\"$version\"/"
+    refute_output
+}
+
+@test 'scripts/set-ver set_shellib_version get_version test' {
+    skip
 }
 
 @test 'scripts/set-ver set_shellib_version fail test' {
