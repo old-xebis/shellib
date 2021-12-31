@@ -23,6 +23,8 @@ The goal of the library is to have a small yet useful set of functions. It is **
 
 - [Features](#features)
 - [Installation and Configuration](#installation-and-configuration)
+  - [Deb Package](#deb-package)
+  - [Git Submodule](#git-submodule)
 - [Usage](#usage)
 - [Contributing](#contributing)
   - [Testing](#testing)
@@ -46,12 +48,37 @@ The goal of the library is to have a small yet useful set of functions. It is **
 
 ## Installation and Configuration
 
+### Deb Package
+
 ```bash
 shellib_latest_deb_url=$(curl https://gitlab.com/api/v4/projects/26143455/releases | jq --raw-output '.[0].assets.links | .[0].direct_asset_url') # Get the latest deb package URL
 shellib_downloaded_deb_file=$(mktemp --suffix='deb') # Set the package download destination
 curl "$shellib_latest_deb_url" -o "$shellib_downloaded_deb_file" # Download the latest deb package
 sudo dpkg -i "$shellib_downloaded_deb_file" # Install the package
 rm "$shellib_downloaded_deb_file" # Clean up after yourself
+```
+
+### Git Submodule
+
+Install:
+
+```bash
+cd your-project/path/to/submodule # Get to the directory
+git submodule add https://github.com/xebis/shellib.git shellib # Add Shellib as a git submodule
+# Previous command:
+#   - updates (or creates, when doesn't exist) .gitmodules
+#   - stages .gitmodules and the new submodule
+
+# Commit, push, ...
+```
+
+Update:
+
+```bash
+git submodule update path/to/submodule --remote --merge # Update the submodule
+# OR
+git submodule update --remote --merge # Updates all repository submodules
+# Commit, push, ...
 ```
 
 ## Usage
@@ -72,7 +99,9 @@ LANG=C
 Source the library:
 
 ```bash
-. /usr/lib/shellib.sh
+. /usr/lib/shellib.sh # When installed as a deb package
+# OR
+. path/to/submodule/shellib/src/shellib.sh # When added as a git submodule
 ```
 
 Use library functions:
