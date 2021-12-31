@@ -19,9 +19,25 @@ fi
 # Environmental variables
 #   $TEST_MOCK_ARGV ... indexed array with mock arguments for $0, $1, and so on
 
+# Constants
+# shellcheck disable=SC2034
+{
+    # Bumped up automatically by calling scripts/set-ver
+    readonly shellib_version="0.0.0+test-set_shellib_version"
+} 2>/dev/null
+
+# Functions
+# Output "Shellib version" to stdout
+# Stdout: Shellib version
+function get_version() {
+    echo "$shellib_version"
+}
+
 # Shellib modules
 shellib_path="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-# shellcheck source=src/global.sh
-. "$shellib_path/src/global.sh"
+
 # shellcheck source=src/output.sh
 . "$shellib_path/src/output.sh"
+
+# shellcheck source=src/events.sh
+. "$shellib_path/src/events.sh"

@@ -13,8 +13,8 @@ setup() {
 }
 
 @test 'scripts/set-ver set_shellib_version success test' {
-    local version_file='src/global.sh'
-    local backup_file='src/global.sh.bup'
+    local version_file='shellib.sh'
+    local backup_file='shellib.sh.bup'
     local version='0.0.0+test-set_shellib_version'
 
     cp "$version_file" "$backup_file"

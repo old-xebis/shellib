@@ -24,3 +24,11 @@ setup() {
     assert_failure
     assert_output "test/script 🛈 Shouldn't be sourced multiple times"
 }
+
+@test 'shellib.sh get_version test' {
+    . shellib.sh
+    run get_version
+
+    assert_success
+    assert_output "$shellib_version"
+}

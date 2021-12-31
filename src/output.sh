@@ -1,5 +1,19 @@
 # shellcheck shell=bash
 
+# Constants
+# shellcheck disable=SC2034
+{
+    # Status codes
+    readonly status_ok=0
+    readonly status_err=1
+
+    # Symbols
+    readonly symbol_todo='☐'
+    readonly symbol_doing='…'
+    readonly symbol_done='🗹'
+    readonly symbol_failed='☒'
+} 2>/dev/null
+
 # Functions
 # Output "script symbol message" to stdout
 #   $1 ... string message

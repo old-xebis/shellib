@@ -49,11 +49,13 @@ The goal of the library is to have a small yet useful set of functions. It is **
 - `get_version`: Output Shellib version to stdout
 - `out 'message' ['symbol' | $symbol_ok ['script' | $0]]`: Output "script symbol message" to stdout
 - `err 'message' ['symbol' | $symbol_ok ['script' | $0]]`: Output "script symbol message" to stderr
+- `event 'message' ['level' ['symbol']]`: Send "command symbol message" to stderr, default `level` = `$level_info`, default `symbol` depends on `level`
 
 ### Constants
 
 - Status codes: `$status_ok`, `$status_err`
 - Symbols: `$symbol_ok` ✓, `$symbol_todo` ☐, `$symbol_doing` …, `$symbol_done` 🗹, `$symbol_failed` ☒, `$symbol_tip` 💡, `$symbol_notice` 🛈, `$symbol_warn` ⚠, `$symbol_sec` ☠, `$symbol_err` ✗
+- Event levels: `level_err` < `level_sec` < `level_warn` < `level_notice` < `level_info`
 
 ## Installation and Configuration
 
