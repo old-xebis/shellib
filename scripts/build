@@ -14,7 +14,8 @@ function build {
     mkdir "$build_dir"
     cp 'shellib.sh' "$build_dir/shellib.sh"
 
-    sed 's/. src\/globals.sh/\n# Source src\/globals.sh/g' -i "$build_dir/shellib.sh"
+    # shellcheck disable=SC2016
+    sed 's/\.\s"$shellib_path\/src\/globals.sh"/\n# . src\/globals.sh/g' -i "$build_dir/shellib.sh"
     cat src/globals.sh >>"$build_dir/shellib.sh"
 }
 

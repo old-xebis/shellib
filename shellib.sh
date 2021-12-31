@@ -20,4 +20,6 @@ fi
 #   $TEST_MOCK_ARGV ... indexed array with mock arguments for $0, $1, and so on
 
 # Shellib modules
-. src/globals.sh
+shellib_path="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+# shellcheck source=src/globals.sh
+. "$shellib_path/src/globals.sh"
