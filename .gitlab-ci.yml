@@ -39,7 +39,7 @@ test-full:
   stage: validate
   before_script:
     - *default_before_script
-    - apk add bats
+    - apk add bats grep
   script:
     - scripts/test full
   interruptible: true
@@ -50,7 +50,7 @@ test-nightly:
   stage: validate
   before_script:
     - *default_before_script
-    - apk add bats
+    - apk add bats grep
   script:
     - scripts/test nightly
   rules:
