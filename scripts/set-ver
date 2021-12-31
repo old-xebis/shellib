@@ -15,7 +15,7 @@ function set_shellib_version {
         local regex_from='shellib_version=".*"'
         local regex_to="shellib_version=\"$1\""
 
-        sed -i "s/$regex_from/$regex_to/" 'src/globals.sh'
+        sed -i "s/$regex_from/$regex_to/" 'src/global.sh'
     fi
 }
 

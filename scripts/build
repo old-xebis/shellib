@@ -9,14 +9,19 @@ LANG=C
 # Set Shellib version
 function build {
     local build_dir='build'
+    local source_files
+    local source_file
+    local target_file="$build_dir/shellib.sh"
 
     rm -rf "$build_dir"
     mkdir "$build_dir"
-    cp 'shellib.sh' "$build_dir/shellib.sh"
+    cp 'shellib.sh' "$target_file"
 
-    # shellcheck disable=SC2016
-    sed 's/\.\s"$shellib_path\/src\/globals.sh"/\n# . src\/globals.sh/g' -i "$build_dir/shellib.sh"
-    cat src/globals.sh >>"$build_dir/shellib.sh"
+    source_files=$(grep -oP "(?<=^\\.\\s\"[$]shellib_path/)[^\"]*(?=\")" "$target_file")
+    for source_file in $source_files; do
+        sed "s~\\.\\s\"\$shellib_path/$source_file\"~#. $source_file~g" -i "$target_file"
+        cat "$source_file" >>"$target_file"
+    done
 }
 
 # Skip functions execution under test

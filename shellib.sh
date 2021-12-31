@@ -21,5 +21,7 @@ fi
 
 # Shellib modules
 shellib_path="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-# shellcheck source=src/globals.sh
-. "$shellib_path/src/globals.sh"
+# shellcheck source=src/global.sh
+. "$shellib_path/src/global.sh"
+# shellcheck source=src/output.sh
+. "$shellib_path/src/output.sh"

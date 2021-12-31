@@ -10,13 +10,6 @@ setup() {
     . shellib.sh
 }
 
-@test 'src/shellib.sh test' {
-    run get_version
-
-    assert_success
-    assert_output "$shellib_version"
-}
-
 @test 'src/shellib.sh out with one parameter test' {
     run out 'OK'
     assert_output "$0 ✓ OK"
