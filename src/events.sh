@@ -32,5 +32,5 @@ function event() {
     local level="${2:-$level_info}"
     local symbol="${3:-${symbol_to_level[$level]}}"
 
-    echo "${TEST_MOCK_ARGV[0]:-$0} $symbol $1" >&2
+    echo "${TEST_ARGV[0]:-$0} $symbol $1" >&2
 }

@@ -7,7 +7,7 @@ setup() {
     load 'helpers/bats-support/load'
     load 'helpers/bats-assert/load'
 
-    export TEST_MOCK_ARGV=('scripts/set-ver')
+    export TEST_ARGV=('scripts/set-ver')
 
     . scripts/set-ver
 }

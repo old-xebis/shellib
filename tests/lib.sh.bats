@@ -16,7 +16,7 @@ setup() {
 }
 
 @test 'scripts/lib.sh out with one parameter and mocked zero argument test' {
-    export TEST_MOCK_ARGV=('test/script')
+    export TEST_ARGV=('test/script')
     run out 'OK'
     assert_output 'test/script ✓ OK'
 }

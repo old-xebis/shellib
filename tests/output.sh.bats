@@ -16,7 +16,7 @@ setup() {
 }
 
 @test 'src/shellib.sh out with one parameter and mocked argument zero test' {
-    export TEST_MOCK_ARGV=('test/script')
+    export TEST_ARGV=('test/script')
     run out 'OK'
     assert_output 'test/script ✓ OK'
 }

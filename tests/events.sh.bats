@@ -12,7 +12,7 @@ setup() {
 
 @test 'src/events.sh event with mocked script name test' {
     # shellcheck disable=SC2030,2031
-    export TEST_MOCK_ARGV=('test/script')
+    export TEST_ARGV=('test/script')
 
     run event 'OK'
 
