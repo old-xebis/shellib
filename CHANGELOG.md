@@ -1,3 +1,12 @@
+# [0.5.0](https://gitlab.com/xebis/shellib/compare/v0.4.0...v0.5.0) (2022-01-01)
+
+
+### Features
+
+* add event functions err, sec, warn, notice, and info ([568e1da](https://gitlab.com/xebis/shellib/commit/568e1dacdf1f3ad891d3d3a71a31f10b4a2117e8))
+* add events module ([57e386a](https://gitlab.com/xebis/shellib/commit/57e386a6b5c2b2e0087746da46ab82c1a443e101))
+* add events possibility to override command by an argument ([c913a3e](https://gitlab.com/xebis/shellib/commit/c913a3e448d879eea61c539206fa9f02efd65b08))
+
 # [0.4.0](https://gitlab.com/xebis/shellib/compare/v0.3.0...v0.4.0) (2021-12-31)
 
 
