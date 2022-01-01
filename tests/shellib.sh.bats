@@ -16,11 +16,20 @@ setup() {
 }
 
 @test 'shellib.sh double source test' {
-    export TEST_MOCK_ARGV=('test/script')
+    # shellcheck disable=SC2030,2031
+    export TEST_ARGV=('test/script')
 
     . shellib.sh
     run . shellib.sh
 
     assert_failure
     assert_output "test/script 🛈 Shouldn't be sourced multiple times"
+}
+
+@test 'shellib.sh get_version test' {
+    . shellib.sh
+    run get_version
+
+    assert_success
+    assert_output "$shellib_version"
 }

@@ -48,7 +48,7 @@ function run_test_set() {
 
 # Print usage
 function usage() {
-    echo "Usage: ${TEST_MOCK_ARGV:-$0} [test-set | path [test-set | path [...]]]"
+    echo "Usage: ${TEST_ARGV:-$0} [test-set | path [test-set | path [...]]]"
     echo
     echo '    test-set    Test set name: quick, reduced, full, or nightly'
     echo '    path        Path to the test file'

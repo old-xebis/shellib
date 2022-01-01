@@ -10,9 +10,9 @@ setup() {
     . shellib.sh
 }
 
-@test 'src/shellib.sh get_version test' {
-    run get_version
+@test 'src/process.sh status constants test' {
+    run echo "$status_ok" "$status_err"
 
     assert_success
-    assert_output "$shellib_version"
+    assert_output "0 1"
 }
