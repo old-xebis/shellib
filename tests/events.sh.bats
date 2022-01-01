@@ -40,3 +40,53 @@ setup() {
     assert_success
     assert_output "$0 💡 Tip"
 }
+
+@test 'src/events.sh err with one parameter test' {
+    run err 'Error'
+    assert_output "$0 ✗ Error"
+}
+
+@test 'src/events.sh err with two parameters test' {
+    run err 'Error' '!'
+    assert_output "$0 ! Error"
+}
+
+@test 'src/events.sh sec with one parameter test' {
+    run sec 'Security warning!'
+    assert_output "$0 ☠ Security warning!"
+}
+
+@test 'src/events.sh sec with two parameters test' {
+    run sec 'Security' '!'
+    assert_output "$0 ! Security"
+}
+
+@test 'src/events.sh warn with one parameter test' {
+    run warn 'Warning'
+    assert_output "$0 ⚠ Warning"
+}
+
+@test 'src/events.sh warn with two parameters test' {
+    run warn 'Warning' '!'
+    assert_output "$0 ! Warning"
+}
+
+@test 'src/events.sh notice with one parameter test' {
+    run notice 'Notice'
+    assert_output "$0 🛈 Notice"
+}
+
+@test 'src/events.sh notice with two parameters test' {
+    run notice 'Notice' '!'
+    assert_output "$0 ! Notice"
+}
+
+@test 'src/events.sh info with one parameter test' {
+    run info 'Information'
+    assert_output "$0 ✓ Information"
+}
+
+@test 'src/events.sh info with two parameters test' {
+    run info 'Information' 'i'
+    assert_output "$0 i Information"
+}

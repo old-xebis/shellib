@@ -36,8 +36,8 @@ function get_version() {
 # Shellib modules
 shellib_path="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# shellcheck source=src/output.sh
-. "$shellib_path/src/output.sh"
+# shellcheck source=src/process.sh
+. "$shellib_path/src/process.sh"
 
 # shellcheck source=src/events.sh
 . "$shellib_path/src/events.sh"

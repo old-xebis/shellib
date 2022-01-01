@@ -17,6 +17,10 @@
     readonly symbol_notice='🛈'
     readonly symbol_ok='✓'
     readonly symbol_tip='💡'
+    readonly symbol_todo='☐'
+    readonly symbol_doing='…'
+    readonly symbol_done='🗹'
+    readonly symbol_failed='☒'
 
     # Symbols to event levels mapping
     readonly symbol_to_level=("$symbol_err" "$symbol_sec" "$symbol_warn" "$symbol_notice" "$symbol_ok")
@@ -33,4 +37,44 @@ function event() {
     local symbol="${3:-${symbol_to_level[$level]}}"
 
     echo "${TEST_ARGV[0]:-$0} $symbol $1" >&2
+}
+
+# Raise an error
+#   $1 ... event message
+#   [$2] ... event symbol, one of symbol_* constants, default "$symbol_err"
+# Stderr: command symbol event message
+function err() {
+    event "$1" "$level_err" "${2:-}"
+}
+
+# Raise a security warning
+#   $1 ... event message
+#   [$2] ... event symbol, one of symbol_* constants, default "$symbol_security"
+# Stderr: command symbol event message
+function sec() {
+    event "$1" "$level_sec" "${2:-}"
+}
+
+# Raise a warning
+#   $1 ... event message
+#   [$2] ... event symbol, one of symbol_* constants, default "$symbol_warn"
+# Stderr: command symbol event message
+function warn() {
+    event "$1" "$level_warn" "${2:-}"
+}
+
+# Raise a notice
+#   $1 ... event message
+#   [$2] ... event symbol, one of symbol_* constants, default "$symbol_notice"
+# Stderr: command symbol event message
+function notice() {
+    event "$1" "$level_notice" "${2:-}"
+}
+
+# Raise an information
+#   $1 ... event message
+#   [$2] ... event symbol, one of symbol_* constants, default "$symbol_ok"
+# Stderr: command symbol event message
+function info() {
+    event "$1" "$level_info" "${2:-}"
 }
