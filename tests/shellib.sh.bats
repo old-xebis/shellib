@@ -16,6 +16,7 @@ setup() {
 }
 
 @test 'shellib.sh double source test' {
+    # shellcheck disable=SC2030,2031
     export TEST_MOCK_ARGV=('test/script')
 
     . shellib.sh
