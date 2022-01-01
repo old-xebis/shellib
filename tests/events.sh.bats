@@ -35,10 +35,17 @@ setup() {
 }
 
 @test 'src/events.sh event with three parameters test' {
-    run event 'Tip' "" "$symbol_tip"
+    run event 'Tip' '' "$symbol_tip"
 
     assert_success
     assert_output "$0 💡 Tip"
+}
+
+@test 'src/events.sh event with four parameters test' {
+    run event 'Error' "$level_err" '' 'test/script'
+
+    assert_success
+    assert_output 'test/script ✗ Error'
 }
 
 @test 'src/events.sh err with one parameter test' {
@@ -51,6 +58,11 @@ setup() {
     assert_output "$0 ! Error"
 }
 
+@test 'src/events.sh err with three parameters test' {
+    run err 'Error' '' 'test/script'
+    assert_output 'test/script ✗ Error'
+}
+
 @test 'src/events.sh sec with one parameter test' {
     run sec 'Security warning!'
     assert_output "$0 ☠ Security warning!"
@@ -59,6 +71,11 @@ setup() {
 @test 'src/events.sh sec with two parameters test' {
     run sec 'Security' '!'
     assert_output "$0 ! Security"
+}
+
+@test 'src/events.sh sec with three parameters test' {
+    run sec 'Security warning!' '' 'test/script'
+    assert_output 'test/script ☠ Security warning!'
 }
 
 @test 'src/events.sh warn with one parameter test' {
@@ -71,6 +88,11 @@ setup() {
     assert_output "$0 ! Warning"
 }
 
+@test 'src/events.sh warn with three parameters test' {
+    run warn 'Warning' '' 'test/script'
+    assert_output 'test/script ⚠ Warning'
+}
+
 @test 'src/events.sh notice with one parameter test' {
     run notice 'Notice'
     assert_output "$0 🛈 Notice"
@@ -81,6 +103,11 @@ setup() {
     assert_output "$0 ! Notice"
 }
 
+@test 'src/events.sh notice with three parameters test' {
+    run notice 'Notice' '' 'test/script'
+    assert_output 'test/script 🛈 Notice'
+}
+
 @test 'src/events.sh info with one parameter test' {
     run info 'Information'
     assert_output "$0 ✓ Information"
@@ -89,4 +116,9 @@ setup() {
 @test 'src/events.sh info with two parameters test' {
     run info 'Information' 'i'
     assert_output "$0 i Information"
+}
+
+@test 'src/events.sh info with three parameters test' {
+    run info 'Information' '' 'test/script'
+    assert_output 'test/script ✓ Information'
 }
