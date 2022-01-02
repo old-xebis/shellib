@@ -47,6 +47,7 @@ The goal of the library is to have a small yet useful set of functions. It is **
 ### Functions
 
 - `get_version`: Output Shellib version to `stdout`
+- `is_root`: Return boolean status, if the current user is root, or not
 - `event 'message' ['level' ['symbol' ['command']]]`: Send "command symbol message" to `stderr`, default `level` = `$level_info`, default `symbol` depends on `level` (`$level_err` ✗, `$level_sec` ☠, `$level_warn` ⚠, `$level_notice` 🛈, default `$level_info` ✓), and default `command` is `$0`
   - `err`, `sec`, `warn`, `notice`, and `info` functions - `func 'message' ['symbol' ['command']]`: Wrappers for each level, default `symbol` depends on `level`, and default `command` is `$0`
 
