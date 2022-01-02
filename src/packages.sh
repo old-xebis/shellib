@@ -1,10 +1,57 @@
 # shellcheck shell=bash
 
-# Workaround to convince shellcheck ./process is already sourced
+# Workaround to tell shellcheck ./process.sh is already sourced
 # shellcheck source=./process.sh
+. /dev/null
+# shellcheck source=./events.sh
 . /dev/null
 
 # Functions
+# Install apt package
+#   $1 ... Package name
+# Stderr: events
+# Status: "$status_ok" on success, one of "$status_*" otherwise
+# Side effects: package is installed
+function apt_install() {
+    local package="${1:-}"
+
+    if [ -z "$package" ]; then
+        err 'Missing package'
+        return "$status_err"
+    fi
+
+    if ! apt-get -v &>/dev/null || ! apt-cache -v &>/dev/null; then
+        err 'apt-get or apt-cache not found'
+        return "$status_err"
+    fi
+
+    if apt-cache search -n "^$package$" 2>/dev/null | grep "^$package" >/dev/null; then
+        if apt-cache pkgnames "^$package$" 2>/dev/null | grep "^$package" >/dev/null; then
+            info "Apt package '$package' already installed" "$symbol_done"
+        else
+            if is_root; then
+                info "Apt package '$package' installation" "$symbol_doing"
+                apt-get update
+                if apt-get install -y "$package"; then
+                    info "Apt package '$package' installed" "$symbol_done"
+                else
+                    err "Apt package '$package' installation failed" "$symbol_failed"
+                    return "$status_err"
+                fi
+            else
+                info "Apt package '$package' is not installed" "$symbol_todo"
+                warn "Apt package '$package' could be installed by root only"
+                info 'Try again as root' "$symbol_tip"
+                return "$status_err"
+            fi
+        fi
+    else
+        err "Apt package '$package' not found"
+        info "Try 'apt-get update' first" "$symbol_tip"
+        return "$status_err"
+    fi
+}
+
 # Install a package
 #   $1 ... command to execute, only 'install' supported
 #   $2 ... Package, formatted as 'manager:package'
@@ -30,10 +77,10 @@ function pkg() {
         package="${2#*:}"
 
         call="${manager}_$command"
-        if [ "$(type -t "$call")" = 'function' ]; then
+        if type "$call" &>/dev/null; then
             "$call" "$package"
         else
-            err "Missing manager command function '$call'"
+            err "Missing function '$call'"
             return "$status_err"
         fi
         ;;
@@ -82,5 +129,4 @@ function pkgs() {
         return "$status_err"
         ;;
     esac
-
 }
