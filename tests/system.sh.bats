@@ -21,6 +21,7 @@ setup() {
 }
 
 @test 'src/system.sh is_root false test' {
+    # shellcheck disable=SC2030,2031
     export TEST_EUID=1000
 
     run is_root
