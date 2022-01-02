@@ -1,3 +1,17 @@
+# [0.7.0](https://gitlab.com/xebis/shellib/compare/v0.6.0...v0.7.0) (2022-01-02)
+
+
+### Bug Fixes
+
+* change messages marking packages from apt and pip to deb and python ([3782da3](https://gitlab.com/xebis/shellib/commit/3782da3601f08a8c81df9c7cbe159d614d5ffee9))
+
+
+### Features
+
+* add apt as supported package manager for pkgs ([b70566f](https://gitlab.com/xebis/shellib/commit/b70566fb8997e22d8be25cd34da645f1dd20abc6))
+* add pip as supported package manager for pkgs ([6556730](https://gitlab.com/xebis/shellib/commit/6556730d454155938f0375450b4b57fcde151ec9))
+* add pkgs and pkg install function ([b462a99](https://gitlab.com/xebis/shellib/commit/b462a993913eebf29c5c814ee637f93c55824685))
+
 # [0.6.0](https://gitlab.com/xebis/shellib/compare/v0.5.0...v0.6.0) (2022-01-02)
 
 
