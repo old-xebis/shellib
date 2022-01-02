@@ -40,8 +40,11 @@ shellib_path="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 # shellcheck source=src/process.sh
 . "$shellib_path/src/process.sh"
 
-# shellcheck source=src/process.sh
+# shellcheck source=src/system.sh
 . "$shellib_path/src/system.sh"
 
 # shellcheck source=src/events.sh
 . "$shellib_path/src/events.sh"
+
+# shellcheck source=src/packages.sh
+. "$shellib_path/src/packages.sh"

@@ -50,6 +50,7 @@ The goal of the library is to have a small yet useful set of functions. It is **
 - `is_root`: Return boolean status, if the current user is root, or not
 - `event 'message' ['level' ['symbol' ['command']]]`: Send "command symbol message" to `stderr`, default `level` = `$level_info`, default `symbol` depends on `level` (`$level_err` ✗, `$level_sec` ☠, `$level_warn` ⚠, `$level_notice` 🛈, default `$level_info` ✓), and default `command` is `$0`
   - `err`, `sec`, `warn`, `notice`, and `info` functions - `func 'message' ['symbol' ['command']]`: Wrappers for each level, default `symbol` depends on `level`, and default `command` is `$0`
+- `pkgs install 'man:pkg1' ['man:pkg2' [...]]`: Install package list formatted as `man:pkg`, where `man` is a supported package manager, and `pkg` is a package to install
 
 ### Constants
 
@@ -180,6 +181,7 @@ scripts/pack "$ver_next" # Create package at ./build
 ## To-Do list
 
 - [ ] Fix workaround for pre-commit `jumanjihouse/pre-commit-hooks` hook `script-must-have-extension` - `*.bats` shouldn't be excluded
+- [ ] Fix workaround for pre-commit `local` hook `shellcheck` - shellcheck has duplicated parameters from `.shellcheckrc`, because these are not taken into account
 
 ## Roadmap
 
