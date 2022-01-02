@@ -32,6 +32,11 @@ setup() {
 }
 
 @test 'src/packages.sh apt_install without apt-cache test' {
+    function apt-get() {
+        echo
+    }
+    export -f apt-get
+
     function apt-cache() {
         return 1
     }
@@ -44,6 +49,11 @@ setup() {
 }
 
 @test 'src/packages.sh apt_install non-existent package test' {
+    function apt-get() {
+        echo
+    }
+    export -f apt-get
+
     function apt-cache() {
         echo
     }
@@ -57,6 +67,11 @@ setup() {
 }
 
 @test 'src/packages.sh apt_install installed package test' {
+    function apt-get() {
+        echo
+    }
+    export -f apt-get
+
     function apt-cache() {
         case "${1:-}" in
         search) echo "${3:1:-1} - short package description" ;;
@@ -72,6 +87,11 @@ setup() {
 }
 
 @test 'src/packages.sh apt_install package as non-root test' {
+    function apt-get() {
+        echo
+    }
+    export -f apt-get
+
     function apt-cache() {
         case "${1:-}" in
         search) echo "${3:1:-1} - package" ;;
