@@ -18,6 +18,7 @@ fi
 
 # Environmental variables
 #   $TEST_ARGV ... indexed array with mock arguments for $0, $1, and so on
+#   $TEST_EUID ... integer with mock EUID
 
 # Constants
 # shellcheck disable=SC2034
@@ -38,6 +39,9 @@ shellib_path="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # shellcheck source=src/process.sh
 . "$shellib_path/src/process.sh"
+
+# shellcheck source=src/process.sh
+. "$shellib_path/src/system.sh"
 
 # shellcheck source=src/events.sh
 . "$shellib_path/src/events.sh"
