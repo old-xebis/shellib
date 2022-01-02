@@ -7,7 +7,7 @@
 . /dev/null
 
 # Functions
-# Install apt package
+# Install deb package
 #   $1 ... Package name
 # Stderr: events
 # Status: "$status_ok" on success, one of "$status_*" otherwise
@@ -27,32 +27,32 @@ function apt_install() {
 
     if apt-cache search -n "^$package$" 2>/dev/null | grep "^$package" >/dev/null; then
         if apt-cache pkgnames "^$package$" 2>/dev/null | grep "^$package" >/dev/null; then
-            info "Apt package '$package' already installed" "$symbol_done"
+            info "deb package '$package' already installed" "$symbol_done"
         else
             if is_root; then
-                info "Apt package '$package' installation" "$symbol_doing"
+                info "deb package '$package' installation" "$symbol_doing"
                 apt-get update
                 if apt-get install -y "$package"; then
-                    info "Apt package '$package' installed" "$symbol_done"
+                    info "deb package '$package' installed" "$symbol_done"
                 else
-                    err "Apt package '$package' installation failed" "$symbol_failed"
+                    err "deb package '$package' installation failed" "$symbol_failed"
                     return "$status_err"
                 fi
             else
-                info "Apt package '$package' is not installed" "$symbol_todo"
-                warn "Apt package '$package' could be installed by root only"
+                info "deb package '$package' is not installed" "$symbol_todo"
+                warn "deb package '$package' could be installed by root only"
                 info 'Try again as root' "$symbol_tip"
                 return "$status_err"
             fi
         fi
     else
-        err "Apt package '$package' not found"
+        err "deb package '$package' not found"
         info "Try 'apt-get update' first" "$symbol_tip"
         return "$status_err"
     fi
 }
 
-# Install pip package
+# Install Python package by pip
 #   $1 ... Package name
 # Stderr: events
 # Status: "$status_ok" on success, one of "$status_*" otherwise
@@ -71,19 +71,19 @@ function pip_install() {
     fi
 
     if pip3 list 2>/dev/null | grep "^$package\s.*$" >/dev/null; then
-        info "Pip package '$package' already installed" "$symbol_done"
+        info "Python package '$package' already installed" "$symbol_done"
     else
         if is_root; then
-            info "Pip package '$package' installation" "$symbol_doing"
+            info "Python package '$package' installation" "$symbol_doing"
             if pip3 install -g "$package"; then
-                info "Pip package '$package' installed" "$symbol_done"
+                info "Python package '$package' installed" "$symbol_done"
             else
-                err "Pip package '$package' installation failed" "$symbol_failed"
+                err "Python package '$package' installation failed" "$symbol_failed"
                 return "$status_err"
             fi
         else
-            info "Pip package '$package' is not installed" "$symbol_todo"
-            warn "Pip package '$package' should be installed by root only"
+            info "Python package '$package' is not installed" "$symbol_todo"
+            warn "Python package '$package' should be installed by root only"
             info 'Try again as root' "$symbol_tip"
             return "$status_err"
         fi

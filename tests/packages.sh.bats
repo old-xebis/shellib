@@ -62,7 +62,7 @@ setup() {
     run apt_install 'nonsense'
 
     assert_failure
-    assert_line -n 0 "scripts/test ✗ Apt package 'nonsense' not found"
+    assert_line -n 0 "scripts/test ✗ deb package 'nonsense' not found"
     assert_line -n 1 "scripts/test 💡 Try 'apt-get update' first"
 }
 
@@ -83,7 +83,7 @@ setup() {
     run apt_install 'package'
 
     assert_success
-    assert_output "scripts/test 🗹 Apt package 'package' already installed"
+    assert_output "scripts/test 🗹 deb package 'package' already installed"
 }
 
 @test 'src/packages.sh apt_install package as non-root test' {
@@ -108,8 +108,8 @@ setup() {
     run apt_install 'package'
 
     assert_failure
-    assert_line -n 0 "scripts/test ☐ Apt package 'package' is not installed"
-    assert_line -n 1 "scripts/test ⚠ Apt package 'package' could be installed by root only"
+    assert_line -n 0 "scripts/test ☐ deb package 'package' is not installed"
+    assert_line -n 1 "scripts/test ⚠ deb package 'package' could be installed by root only"
     assert_line -n 2 "scripts/test 💡 Try again as root"
 }
 
@@ -131,7 +131,7 @@ setup() {
         case "${1:-}" in
         update) echo 'Update APT cache' ;;
         install)
-            echo "Failed to install APT package '${3:-}'"
+            echo "Failed to install deb package '${3:-}'"
             return 1
             ;;
         esac
@@ -141,10 +141,10 @@ setup() {
     run apt_install 'package'
 
     assert_failure
-    assert_line -n 0 "scripts/test … Apt package 'package' installation"
+    assert_line -n 0 "scripts/test … deb package 'package' installation"
     assert_line -n 1 'Update APT cache'
-    assert_line -n 2 "Failed to install APT package 'package'"
-    assert_line -n 3 "scripts/test ☒ Apt package 'package' installation failed"
+    assert_line -n 2 "Failed to install deb package 'package'"
+    assert_line -n 3 "scripts/test ☒ deb package 'package' installation failed"
 }
 
 @test 'src/packages.sh apt_install package installation success test' {
@@ -164,7 +164,7 @@ setup() {
     function apt-get() {
         case "${1:-}" in
         update) echo 'Update APT cache' ;;
-        install) echo "Installed APT package '$3'" ;;
+        install) echo "Installed deb package '$3'" ;;
         esac
     }
     export -f apt-cache
@@ -172,10 +172,10 @@ setup() {
     run apt_install 'package'
 
     assert_success
-    assert_line -n 0 "scripts/test … Apt package 'package' installation"
+    assert_line -n 0 "scripts/test … deb package 'package' installation"
     assert_line -n 1 'Update APT cache'
-    assert_line -n 2 "Installed APT package 'package'"
-    assert_line -n 3 "scripts/test 🗹 Apt package 'package' installed"
+    assert_line -n 2 "Installed deb package 'package'"
+    assert_line -n 3 "scripts/test 🗹 deb package 'package' installed"
 }
 
 @test 'src/packages.sh pip_install without parameters test' {
@@ -207,7 +207,7 @@ setup() {
     run pip_install 'package'
 
     assert_success
-    assert_output "scripts/test 🗹 Pip package 'package' already installed"
+    assert_output "scripts/test 🗹 Python package 'package' already installed"
 }
 
 @test 'src/packages.sh pip_install package as non-root test' {
@@ -224,8 +224,8 @@ setup() {
     run pip_install 'package'
 
     assert_failure
-    assert_line -n 0 "scripts/test ☐ Pip package 'package' is not installed"
-    assert_line -n 1 "scripts/test ⚠ Pip package 'package' should be installed by root only"
+    assert_line -n 0 "scripts/test ☐ Python package 'package' is not installed"
+    assert_line -n 1 "scripts/test ⚠ Python package 'package' should be installed by root only"
     assert_line -n 2 "scripts/test 💡 Try again as root"
 }
 
@@ -234,7 +234,7 @@ setup() {
         case "$1" in
         list) echo ;;
         install)
-            echo "Failed to install PIP package '$3'"
+            echo "Failed to install Python package '$3'"
             return 1
             ;;
         esac
@@ -249,16 +249,16 @@ setup() {
     run pip_install 'package'
 
     assert_failure
-    assert_line -n 0 "scripts/test … Pip package 'package' installation"
-    assert_line -n 1 "Failed to install PIP package 'package'"
-    assert_line -n 2 "scripts/test ☒ Pip package 'package' installation failed"
+    assert_line -n 0 "scripts/test … Python package 'package' installation"
+    assert_line -n 1 "Failed to install Python package 'package'"
+    assert_line -n 2 "scripts/test ☒ Python package 'package' installation failed"
 }
 
 @test 'src/packages.sh pip_install package installation success test' {
     function pip3() {
         case "$1" in
         list) echo ;;
-        install) echo "Installed PIP package '$3'" ;;
+        install) echo "Installed Python package '$3'" ;;
         esac
     }
     export -f pip3
@@ -271,9 +271,9 @@ setup() {
     run pip_install 'package'
 
     assert_success
-    assert_line -n 0 "scripts/test … Pip package 'package' installation"
-    assert_line -n 1 "Installed PIP package 'package'"
-    assert_line -n 2 "scripts/test 🗹 Pip package 'package' installed"
+    assert_line -n 0 "scripts/test … Python package 'package' installation"
+    assert_line -n 1 "Installed Python package 'package'"
+    assert_line -n 2 "scripts/test 🗹 Python package 'package' installed"
 }
 
 @test 'src/packages.sh pkg without parameters test' {
