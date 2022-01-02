@@ -1,3 +1,10 @@
+# [0.6.0](https://gitlab.com/xebis/shellib/compare/v0.5.0...v0.6.0) (2022-01-02)
+
+
+### Features
+
+* add is_root function ([1851105](https://gitlab.com/xebis/shellib/commit/1851105a4d4ca5b33996b24993d109485ab65a47))
+
 # [0.5.0](https://gitlab.com/xebis/shellib/compare/v0.4.0...v0.5.0) (2022-01-01)
 
 
