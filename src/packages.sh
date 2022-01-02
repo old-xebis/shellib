@@ -52,6 +52,44 @@ function apt_install() {
     fi
 }
 
+# Install pip package
+#   $1 ... Package name
+# Stderr: events
+# Status: "$status_ok" on success, one of "$status_*" otherwise
+# Side effects: package is installed
+function pip_install() {
+    local package="${1:-}"
+
+    if [ -z "$package" ]; then
+        err 'Missing package'
+        return "$status_err"
+    fi
+
+    if ! pip3 -V &>/dev/null; then
+        err 'pip3 not found'
+        return "$status_err"
+    fi
+
+    if pip3 list 2>/dev/null | grep "^$package\s.*$" >/dev/null; then
+        info "Pip package '$package' already installed" "$symbol_done"
+    else
+        if is_root; then
+            info "Pip package '$package' installation" "$symbol_doing"
+            if pip3 install -g "$package"; then
+                info "Pip package '$package' installed" "$symbol_done"
+            else
+                err "Pip package '$package' installation failed" "$symbol_failed"
+                return "$status_err"
+            fi
+        else
+            info "Pip package '$package' is not installed" "$symbol_todo"
+            warn "Pip package '$package' should be installed by root only"
+            info 'Try again as root' "$symbol_tip"
+            return "$status_err"
+        fi
+    fi
+}
+
 # Install a package
 #   $1 ... command to execute, only 'install' supported
 #   $2 ... Package, formatted as 'manager:package'

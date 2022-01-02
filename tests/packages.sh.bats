@@ -178,6 +178,104 @@ setup() {
     assert_line -n 3 "scripts/test 🗹 Apt package 'package' installed"
 }
 
+@test 'src/packages.sh pip_install without parameters test' {
+    run pip_install
+
+    assert_failure
+    assert_output 'scripts/test ✗ Missing package'
+}
+
+@test 'src/packages.sh pip_install without apt-get test' {
+    function pip3() {
+        return 1
+    }
+    export -f pip3
+
+    run pip_install 'package'
+
+    assert_failure
+    assert_output 'scripts/test ✗ pip3 not found'
+}
+
+@test 'src/packages.sh pip_install installed package test' {
+    function pip3() {
+        echo 'package 0.0.0'
+        echo 'another 1.5.25'
+    }
+    export -f pip3
+
+    run pip_install 'package'
+
+    assert_success
+    assert_output "scripts/test 🗹 Pip package 'package' already installed"
+}
+
+@test 'src/packages.sh pip_install package as non-root test' {
+    function pip3() {
+        echo
+    }
+    export -f pip3
+
+    function is_root() {
+        return 1
+    }
+    export -f is_root
+
+    run pip_install 'package'
+
+    assert_failure
+    assert_line -n 0 "scripts/test ☐ Pip package 'package' is not installed"
+    assert_line -n 1 "scripts/test ⚠ Pip package 'package' should be installed by root only"
+    assert_line -n 2 "scripts/test 💡 Try again as root"
+}
+
+@test 'src/packages.sh pip_install package installation fail test' {
+    function pip3() {
+        case "$1" in
+        list) echo ;;
+        install)
+            echo "Failed to install PIP package '$3'"
+            return 1
+            ;;
+        esac
+    }
+    export -f pip3
+
+    function is_root() {
+        return 0
+    }
+    export -f is_root
+
+    run pip_install 'package'
+
+    assert_failure
+    assert_line -n 0 "scripts/test … Pip package 'package' installation"
+    assert_line -n 1 "Failed to install PIP package 'package'"
+    assert_line -n 2 "scripts/test ☒ Pip package 'package' installation failed"
+}
+
+@test 'src/packages.sh pip_install package installation success test' {
+    function pip3() {
+        case "$1" in
+        list) echo ;;
+        install) echo "Installed PIP package '$3'" ;;
+        esac
+    }
+    export -f pip3
+
+    function is_root() {
+        return 0
+    }
+    export -f is_root
+
+    run pip_install 'package'
+
+    assert_success
+    assert_line -n 0 "scripts/test … Pip package 'package' installation"
+    assert_line -n 1 "Installed PIP package 'package'"
+    assert_line -n 2 "scripts/test 🗹 Pip package 'package' installed"
+}
+
 @test 'src/packages.sh pkg without parameters test' {
     run pkg
 
