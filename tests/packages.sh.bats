@@ -311,7 +311,7 @@ setup() {
     function npm() {
         case "${1:-}" in
         search) echo "${4} - short package description" ;;
-        ls) echo "/path/to/package" ;;
+        ls) echo '/path/to/package' ;;
         esac
     }
     export -f npm
@@ -326,7 +326,7 @@ setup() {
     function npm() {
         case "${1:-}" in
         search) echo "${4} - short package description" ;;
-        ls) echo "" ;;
+        ls) echo ;;
         esac
     }
     export -f npm
@@ -348,7 +348,7 @@ setup() {
     function npm() {
         case "${1:-}" in
         search) echo "${4} - short package description" ;;
-        ls) echo "" ;;
+        ls) echo ;;
         install)
             echo "Failed to install npm package '$3'"
             return 1
@@ -374,7 +374,7 @@ setup() {
     function npm() {
         case "${1:-}" in
         search) echo "${4} - short package description" ;;
-        ls) echo "" ;;
+        ls) echo ;;
         install) echo "Installed npm package '$3'" ;;
         esac
     }
@@ -391,6 +391,123 @@ setup() {
     assert_line -n 0 "scripts/test … npm package 'package' installation"
     assert_line -n 1 "Installed npm package 'package'"
     assert_line -n 2 "scripts/test 🗹 npm package 'package' installed"
+}
+
+@test 'src/packages.sh snap_install without parameters test' {
+    run snap_install
+
+    assert_failure
+    assert_output 'scripts/test ✗ Missing package'
+}
+
+@test 'src/packages.sh snap_install without snapd test' {
+    function snap() {
+        return 1
+    }
+    export -f snap
+
+    run snap_install 'package'
+
+    assert_failure
+    assert_output 'scripts/test ✗ Snap not found'
+}
+
+@test 'src/packages.sh snap_install non-existent package test' {
+    function snap() {
+        echo
+    }
+    export -f snap
+
+    run snap_install 'nonsense'
+
+    assert_failure
+    assert_line -n 0 "scripts/test ✗ Snap package 'nonsense' not found"
+}
+
+@test 'src/packages.sh snap_install installed package test' {
+    function snap() {
+        case "${1:-}" in
+        find) echo "${2} 0.0.0 author - short package description" ;;
+        list) echo 'package 0.0.0 0 ...' ;;
+        esac
+    }
+    export -f snap
+
+    run snap_install 'package'
+
+    assert_success
+    assert_output "scripts/test 🗹 Snap package 'package' already installed"
+}
+
+@test 'src/packages.sh snap_install package as non-root test' {
+    function snap() {
+        case "${1:-}" in
+        find) echo "${2} 0.0.0 author - short package description" ;;
+        list) echo ;;
+        esac
+    }
+    export -f snap
+
+    function is_root() {
+        return 1
+    }
+    export -f is_root
+
+    run snap_install 'package'
+
+    assert_failure
+    assert_line -n 0 "scripts/test ☐ Snap package 'package' is not installed"
+    assert_line -n 1 "scripts/test ⚠ Snap package 'package' should be installed by root only"
+    assert_line -n 2 "scripts/test 💡 Try again as root"
+}
+
+@test 'src/packages.sh snap_install package installation fail test' {
+    function snap() {
+        case "${1:-}" in
+        find) echo "${2} 0.0.0 author - short package description" ;;
+        list) echo ;;
+        install)
+            echo "Failed to install Snap package '$2'"
+            return 1
+            ;;
+        esac
+    }
+    export -f snap
+
+    function is_root() {
+        return 0
+    }
+    export -f is_root
+
+    run snap_install 'package'
+
+    assert_failure
+    assert_line -n 0 "scripts/test … Snap package 'package' installation"
+    assert_line -n 1 "Failed to install Snap package 'package'"
+    assert_line -n 2 "scripts/test ☒ Snap package 'package' installation failed"
+}
+
+@test 'src/packages.sh snap_install package installation success test' {
+    function snap() {
+        case "${1:-}" in
+        find) echo "${2} 0.0.0 author - short package description" ;;
+        list) echo ;;
+        install) echo "Installed Snap package '$2'" ;;
+        esac
+    }
+    export -f snap
+
+    function is_root() {
+        return 0
+    }
+    export -f is_root
+
+    run snap_install 'package'
+
+    assert_success
+    assert_line -n 0 "scripts/test … Snap package 'package' installation"
+    assert_line -n 1 "Installed Snap package 'package'"
+    assert_line -n 2 "scripts/test 🗹 Snap package 'package' installed"
 }
 
 @test 'src/packages.sh pkg without parameters test' {
