@@ -1,3 +1,10 @@
+# [0.8.0](https://gitlab.com/xebis/shellib/compare/v0.7.1...v0.8.0) (2022-01-03)
+
+
+### Features
+
+* add pkgs npm support ([db2ac2c](https://gitlab.com/xebis/shellib/commit/db2ac2c5e6522a22caf721a18a493dbfce0f3aa0))
+
 ## [0.7.1](https://gitlab.com/xebis/shellib/compare/v0.7.0...v0.7.1) (2022-01-03)
 
 
