@@ -1,3 +1,10 @@
+# [0.9.0](https://gitlab.com/xebis/shellib/compare/v0.8.1...v0.9.0) (2022-01-03)
+
+
+### Features
+
+* add pkgs snap support ([fde3ad5](https://gitlab.com/xebis/shellib/commit/fde3ad50793580e537eaa76bdcda0c8545ca6561))
+
 ## [0.8.1](https://gitlab.com/xebis/shellib/compare/v0.8.0...v0.8.1) (2022-01-03)
 
 
