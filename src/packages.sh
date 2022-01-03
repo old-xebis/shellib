@@ -7,7 +7,7 @@
 . /dev/null
 
 # Functions
-# Install deb package
+# Install deb package by apt
 #   $1 ... Package name
 # Stderr: events
 # Status: "$status_ok" on success, one of "$status_*" otherwise
@@ -129,6 +129,49 @@ function npm_install() {
         fi
     else
         err "npm package '$package' not found"
+        return "$status_err"
+    fi
+}
+
+# Install snap package
+#   $1 ... Package name
+# Stderr: events
+# Status: "$status_ok" on success, one of "$status_*" otherwise
+# Side effects: package is installed
+function snap_install() {
+    local package="${1:-}"
+
+    if [ -z "$package" ]; then
+        err 'Missing package'
+        return "$status_err"
+    fi
+
+    if ! snap --version &>/dev/null; then
+        err 'Snap not found'
+        return "$status_err"
+    fi
+
+    if snap find "$package" 2>/dev/null | grep "^$package\s" >/dev/null; then
+        if snap list | grep "^$package\s" >/dev/null; then
+            info "Snap package '$package' already installed" "$symbol_done"
+        else
+            if is_root; then
+                info "Snap package '$package' installation" "$symbol_doing"
+                if snap install "$package"; then
+                    info "Snap package '$package' installed" "$symbol_done"
+                else
+                    err "Snap package '$package' installation failed" "$symbol_failed"
+                    return "$status_err"
+                fi
+            else
+                info "Snap package '$package' is not installed" "$symbol_todo"
+                warn "Snap package '$package' should be installed by root only"
+                info 'Try again as root' "$symbol_tip"
+                return "$status_err"
+            fi
+        fi
+    else
+        err "Snap package '$package' not found"
         return "$status_err"
     fi
 }
