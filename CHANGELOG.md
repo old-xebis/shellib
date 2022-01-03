@@ -1,3 +1,10 @@
+## [0.8.1](https://gitlab.com/xebis/shellib/compare/v0.8.0...v0.8.1) (2022-01-03)
+
+
+### Bug Fixes
+
+* npm_install always installs package when npm returns non-zero exit ([97f87d0](https://gitlab.com/xebis/shellib/commit/97f87d01447c7873e7a951238e7c23c7a4230ff9))
+
 # [0.8.0](https://gitlab.com/xebis/shellib/compare/v0.7.1...v0.8.0) (2022-01-03)
 
 
