@@ -75,7 +75,7 @@ setup() {
     function apt-cache() {
         case "${1:-}" in
         search) echo "${3:1:-1} - short package description" ;;
-        pkgnames) echo "${2:1:-1}" ;;
+        pkgnames) echo "${2}" ;;
         esac
     }
     export -f apt-cache

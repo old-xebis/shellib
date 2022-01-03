@@ -26,7 +26,7 @@ function apt_install() {
     fi
 
     if apt-cache search -n "^$package$" 2>/dev/null | grep "^$package" >/dev/null; then
-        if apt-cache pkgnames "^$package$" 2>/dev/null | grep "^$package" >/dev/null; then
+        if apt-cache pkgnames "$package" 2>/dev/null | grep "^$package$" >/dev/null; then
             info "deb package '$package' already installed" "$symbol_done"
         else
             if is_root; then
