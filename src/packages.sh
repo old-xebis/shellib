@@ -109,7 +109,7 @@ function npm_install() {
     fi
 
     if npm search --parseable --no-description "$package" 2>/dev/null | grep "^$package\s" >/dev/null; then
-        if npm ls -g --depth=0 --parseable 2>/dev/null | grep "^.*/$package$" >/dev/null; then
+        if { npm ls -g --depth=0 --parseable 2>/dev/null || true; } | grep "^.*/$package$" >/dev/null; then
             info "npm package '$package' already installed" "$symbol_done"
         else
             if is_root; then
