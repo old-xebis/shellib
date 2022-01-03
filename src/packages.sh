@@ -90,6 +90,49 @@ function pip_install() {
     fi
 }
 
+# Install npm package by npm
+#   $1 ... Package name
+# Stderr: events
+# Status: "$status_ok" on success, one of "$status_*" otherwise
+# Side effects: package is installed
+function npm_install() {
+    local package="${1:-}"
+
+    if [ -z "$package" ]; then
+        err 'Missing package'
+        return "$status_err"
+    fi
+
+    if ! npm -v &>/dev/null; then
+        err 'npm not found'
+        return "$status_err"
+    fi
+
+    if npm search --parseable --no-description "$package" 2>/dev/null | grep "^$package\s" >/dev/null; then
+        if npm ls -g --depth=0 --parseable 2>/dev/null | grep "^.*/$package$" >/dev/null; then
+            info "npm package '$package' already installed" "$symbol_done"
+        else
+            if is_root; then
+                info "npm package '$package' installation" "$symbol_doing"
+                if npm install -g "$package"; then
+                    info "npm package '$package' installed" "$symbol_done"
+                else
+                    err "npm package '$package' installation failed" "$symbol_failed"
+                    return "$status_err"
+                fi
+            else
+                info "npm package '$package' is not installed" "$symbol_todo"
+                warn "npm package '$package' should be installed by root only"
+                info 'Try again as root' "$symbol_tip"
+                return "$status_err"
+            fi
+        fi
+    else
+        err "npm package '$package' not found"
+        return "$status_err"
+    fi
+}
+
 # Install a package
 #   $1 ... command to execute, only 'install' supported
 #   $2 ... Package, formatted as 'manager:package'
