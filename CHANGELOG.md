@@ -1,3 +1,10 @@
+## [0.7.1](https://gitlab.com/xebis/shellib/compare/v0.7.0...v0.7.1) (2022-01-03)
+
+
+### Bug Fixes
+
+* apt_install doesn't recognize installed packages correctly ([8a499ee](https://gitlab.com/xebis/shellib/commit/8a499ee636c42fcb121c4868d1b4e9bcd86af6f9))
+
 # [0.7.0](https://gitlab.com/xebis/shellib/compare/v0.6.0...v0.7.0) (2022-01-02)
 
 
