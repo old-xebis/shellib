@@ -276,6 +276,123 @@ setup() {
     assert_line -n 2 "scripts/test 🗹 Python package 'package' installed"
 }
 
+@test 'src/packages.sh npm_install without parameters test' {
+    run npm_install
+
+    assert_failure
+    assert_output 'scripts/test ✗ Missing package'
+}
+
+@test 'src/packages.sh npm_install without npm test' {
+    function npm() {
+        return 1
+    }
+    export -f npm
+
+    run npm_install 'package'
+
+    assert_failure
+    assert_output 'scripts/test ✗ npm not found'
+}
+
+@test 'src/packages.sh npm_install non-existent package test' {
+    function npm() {
+        echo
+    }
+    export -f npm
+
+    run npm_install 'nonsense'
+
+    assert_failure
+    assert_line -n 0 "scripts/test ✗ npm package 'nonsense' not found"
+}
+
+@test 'src/packages.sh npm_install installed package test' {
+    function npm() {
+        case "${1:-}" in
+        search) echo "${4} - short package description" ;;
+        ls) echo "/path/to/package" ;;
+        esac
+    }
+    export -f npm
+
+    run npm_install 'package'
+
+    assert_success
+    assert_output "scripts/test 🗹 npm package 'package' already installed"
+}
+
+@test 'src/packages.sh npm_install package as non-root test' {
+    function npm() {
+        case "${1:-}" in
+        search) echo "${4} - short package description" ;;
+        ls) echo "" ;;
+        esac
+    }
+    export -f npm
+
+    function is_root() {
+        return 1
+    }
+    export -f is_root
+
+    run npm_install 'package'
+
+    assert_failure
+    assert_line -n 0 "scripts/test ☐ npm package 'package' is not installed"
+    assert_line -n 1 "scripts/test ⚠ npm package 'package' should be installed by root only"
+    assert_line -n 2 "scripts/test 💡 Try again as root"
+}
+
+@test 'src/packages.sh npm_install package installation fail test' {
+    function npm() {
+        case "${1:-}" in
+        search) echo "${4} - short package description" ;;
+        ls) echo "" ;;
+        install)
+            echo "Failed to install npm package '$3'"
+            return 1
+            ;;
+        esac
+    }
+    export -f npm
+
+    function is_root() {
+        return 0
+    }
+    export -f is_root
+
+    run npm_install 'package'
+
+    assert_failure
+    assert_line -n 0 "scripts/test … npm package 'package' installation"
+    assert_line -n 1 "Failed to install npm package 'package'"
+    assert_line -n 2 "scripts/test ☒ npm package 'package' installation failed"
+}
+
+@test 'src/packages.sh npm_install package installation success test' {
+    function npm() {
+        case "${1:-}" in
+        search) echo "${4} - short package description" ;;
+        ls) echo "" ;;
+        install) echo "Installed npm package '$3'" ;;
+        esac
+    }
+    export -f npm
+
+    function is_root() {
+        return 0
+    }
+    export -f is_root
+
+    run npm_install 'package'
+
+    assert_success
+    assert_line -n 0 "scripts/test … npm package 'package' installation"
+    assert_line -n 1 "Installed npm package 'package'"
+    assert_line -n 2 "scripts/test 🗹 npm package 'package' installed"
+}
+
 @test 'src/packages.sh pkg without parameters test' {
     run pkg
 
