@@ -3,8 +3,8 @@ set -euo pipefail
 IFS=$'\n\t'
 LANG=C
 
-# shellcheck source=./lib.sh
-. "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib.sh"
+# shellcheck source=../shellib.sh
+. "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../shellib.sh"
 
 # Check committed codebase changes
 function run_pre_commit() {
@@ -17,7 +17,7 @@ function run_pre_commit() {
     fi
 }
 
-# Skip functions execution under test
+# Skip execution under test
 if [ "${BASH_SOURCE[0]}" == "${0}" ]; then
     run_pre_commit
     scripts/test quick
