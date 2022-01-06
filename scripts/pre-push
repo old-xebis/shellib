@@ -3,20 +3,8 @@ set -euo pipefail
 IFS=$'\n\t'
 LANG=C
 
-# shellcheck source=./lib.sh
-. "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib.sh"
-
-# Check for unstaged changes
-function check_unstaged() {
-    local git_unstaged
-    git_unstaged=$(git ls-files -dmo --exclude-standard)
-
-    if [ -n "$git_unstaged" ]; then
-        err 'git unstaged changes detected'
-        return "$status_err"
-    fi
-    out 'git unstaged changes'
-}
+# shellcheck source=../shellib.sh
+. "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../shellib.sh"
 
 # Check pushed codebase changes or without arguments the whole codebase
 function run_pre_commit() {
@@ -35,9 +23,8 @@ function run_pre_commit() {
     fi
 }
 
-# Skip functions execution if under test
+# Skip execution if under test
 if [ "${BASH_SOURCE[0]}" == "${0}" ]; then
-    check_unstaged
     run_pre_commit "$@"
     scripts/test reduced
 fi
