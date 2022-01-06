@@ -135,6 +135,12 @@ Please read [CONTRIBUTING](CONTRIBUTING.md) for details on our code of conduct, 
 - Stuff inherited from [repository-template](https://github.com/xebis/repository-template) should be tested there.
 - Make sure all _non-inherited_ `scripts/*` work as expected, testing checklist:
 
+- `shellib.sh` and `src/*` - covered by unit tests  `tests/*.sh`
+  - [ ] [`shellib.sh`](shellib.sh)
+  - [ ] [`src/events.sh`](src/events.sh)
+  - [ ] [`src/packages.sh`](src/packages.sh)
+  - [ ] [`src/process.sh`](src/process.sh)
+  - [ ] [`src/system.sh`](src/system.sh)
 - `scripts/*` scripts
   - [ ] [`scripts/build`](scripts/build) - covered by unit tests
   - [ ] [`scripts/pack`](scripts/pack)
