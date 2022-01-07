@@ -1,3 +1,10 @@
+# [0.10.0](https://gitlab.com/xebis/shellib/compare/v0.9.0...v0.10.0) (2022-01-07)
+
+
+### Features
+
+* curl2bash_install ([f1a9faa](https://gitlab.com/xebis/shellib/commit/f1a9faa2be3a0e96dec7cda66a47f4cd0e1c6086))
+
 # [0.9.0](https://gitlab.com/xebis/shellib/compare/v0.8.1...v0.9.0) (2022-01-03)
 
 
