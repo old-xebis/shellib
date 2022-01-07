@@ -185,7 +185,7 @@ setup() {
     assert_output 'scripts/test ✗ Missing package'
 }
 
-@test 'src/packages.sh pip_install without apt-get test' {
+@test 'src/packages.sh pip_install without pip3 test' {
     function pip3() {
         return 1
     }
@@ -508,6 +508,112 @@ setup() {
     assert_line -n 0 "scripts/test … Snap package 'package' installation"
     assert_line -n 1 "Installed Snap package 'package'"
     assert_line -n 2 "scripts/test 🗹 Snap package 'package' installed"
+}
+
+@test 'src/packages.sh curl2bash_install without parameters test' {
+    run curl2bash_install
+
+    assert_failure
+    assert_output 'scripts/test ✗ Missing package specification'
+}
+
+@test 'src/packages.sh curl2bash_install wrong package specification format test' {
+    run curl2bash_install 'command:source'
+
+    assert_failure
+    assert_output "scripts/test ✗ Wrong package specification format 'command:source', should be 'command=source'"
+}
+
+@test 'src/packages.sh curl2bash_install without curl test' {
+    function curl() {
+        return 1
+    }
+    export -f curl
+
+    run curl2bash_install 'command=source'
+
+    assert_failure
+    assert_output 'scripts/test ✗ curl not found'
+}
+
+@test 'src/packages.sh curl2bash_install installed package test' {
+    function curl() {
+        echo '0.0.0'
+    }
+    export -f curl
+
+    run curl2bash_install 'bats=https://example.com/curl_install.sh'
+
+    assert_success
+    assert_output "scripts/test 🗹 Package 'bats' already installed"
+}
+
+@test 'src/packages.sh curl2bash_install package as non-root test' {
+    function curl() {
+        echo '0.0.0'
+    }
+    export -f curl
+
+    function is_root() {
+        return 1
+    }
+    export -f is_root
+
+    run curl2bash_install 'nonsense=https://example.com/curl_install.sh'
+
+    assert_failure
+    assert_line -n 0 "scripts/test ☐ Package 'nonsense' is not installed"
+    assert_line -n 1 "scripts/test ⚠ Package 'nonsense' should be installed by root only"
+    assert_line -n 2 "scripts/test 💡 Try again as root"
+}
+
+@test 'src/packages.sh curl2bash_install package installation fail test' {
+    function curl() {
+        case "$1" in
+        -V) echo '0.0.0' ;;
+        -s)
+            echo "Failed to download '$2'" >&2
+            return 1
+            ;;
+        esac
+    }
+    export -f curl
+
+    function is_root() {
+        return 0
+    }
+    export -f is_root
+
+    run curl2bash_install 'no-package=https://example.com/no_package_install.sh'
+
+    assert_failure
+    assert_line -n 0 "scripts/test … Package 'no-package' installation"
+    assert_line -n 1 "Failed to download 'https://example.com/no_package_install.sh'"
+    assert_line -n 2 "scripts/test ☒ Package 'no-package' installation failed"
+}
+
+@test 'src/packages.sh curl2bash_install package installation success test' {
+    function curl() {
+        case "$1" in
+        -V) echo '0.0.0' ;;
+        -s)
+            echo "echo 'It works!'"
+            ;;
+        esac
+    }
+    export -f curl
+
+    function is_root() {
+        return 0
+    }
+    export -f is_root
+
+    run curl2bash_install 'no-package=https://example.com/no_package_install.sh'
+
+    assert_success
+    assert_line -n 0 "scripts/test … Package 'no-package' installation"
+    assert_line -n 1 "It works!"
+    assert_line -n 2 "scripts/test 🗹 Package 'no-package' installed"
 }
 
 @test 'src/packages.sh pkg without parameters test' {
