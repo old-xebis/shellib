@@ -52,6 +52,52 @@ function apt_install() {
     fi
 }
 
+# Add apt repository by apt
+#   $1 ... Repository specification
+#   $2 ... Repository key URL
+# Stderr: events
+# Status: "$status_ok" on success, one of "$status_*" otherwise
+# Side effects: repository is added
+function apt_add() {
+    local repository="${1:-}"
+    local key="${2:-}"
+
+    if [ -z "$repository" ]; then
+        err 'Missing repository specification'
+        return "$status_err"
+    fi
+
+    if [ -z "$key" ]; then
+        err 'Missing repository key URL'
+        return "$status_err"
+    fi
+
+    if ! apt-add-repository -h &>/dev/null || ! apt-key -h &>/dev/null; then
+        err 'apt-add-repository or apt-key not found'
+        return "$status_err"
+    fi
+
+    if is_root; then
+        info "deb repository '$repository' adding" "$symbol_doing"
+        if curl -fsSL "$key" | apt-key add -; then
+            if apt-add-repository "$repository"; then
+                info "deb repository '$repository' added" "$symbol_done"
+            else
+                err "deb repository '$repository' adding failed" "$symbol_failed"
+                return "$status_err"
+            fi
+        else
+            err "deb repository key URL '$key' adding failed" "$symbol_failed"
+            return "$status_err"
+        fi
+    else
+        info "deb repository '$repository' is not added" "$symbol_todo"
+        warn "deb repository '$repository' could be added by root only"
+        info 'Try again as root' "$symbol_tip"
+        return "$status_err"
+    fi
+}
+
 # Install Python package by pip
 #   $1 ... Package name
 # Stderr: events
@@ -217,7 +263,7 @@ function curl2bash_install() {
             fi
         else
             info "Package '$command' is not installed" "$symbol_todo"
-            warn "Package '$command' should be installed by root only"
+            warn "Package '$command' could be installed by root only"
             info 'Try again as root' "$symbol_tip"
             return "$status_err"
         fi

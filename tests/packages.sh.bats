@@ -178,6 +178,171 @@ setup() {
     assert_line -n 3 "scripts/test 🗹 deb package 'package' installed"
 }
 
+@test 'src/packages.sh apt_add without parameters test' {
+    run apt_add
+
+    assert_failure
+    assert_output 'scripts/test ✗ Missing repository specification'
+}
+
+@test 'src/packages.sh apt_add with one parameter test' {
+    run apt_add 'deb [arch=amd64] https://example.com nocturnal main'
+
+    assert_failure
+    assert_output 'scripts/test ✗ Missing repository key URL'
+}
+
+@test 'src/packages.sh apt_add without apt-add-repository test' {
+    function apt-add-repository() {
+        return 1
+    }
+    export -f apt-add-repository
+
+    run apt_add 'deb [arch=amd64] https://example.com nocturnal main' 'https://example.com/gpg'
+
+    assert_failure
+    assert_output 'scripts/test ✗ apt-add-repository or apt-key not found'
+}
+
+@test 'src/packages.sh apt_add without apt-key test' {
+    function apt-add-repository() {
+        echo 'Help'
+    }
+    export -f apt-add-repository
+
+    function apt-key() {
+        return 1
+    }
+    export -f apt-key
+
+    run apt_add 'deb [arch=amd64] https://example.com nocturnal main' 'https://example.com/gpg'
+
+    assert_failure
+    assert_output 'scripts/test ✗ apt-add-repository or apt-key not found'
+}
+
+@test 'src/packages.sh apt_add repository as non-root test' {
+    function apt-add-repository() {
+        echo 'Help'
+    }
+    export -f apt-add-repository
+
+    function apt-key() {
+        echo 'Help'
+    }
+    export -f apt-key
+
+    function is_root() {
+        return 1
+    }
+    export -f is_root
+
+    run apt_add 'deb [arch=amd64] https://example.com nocturnal main' 'https://example.com/gpg'
+
+    assert_failure
+    assert_line -n 0 "scripts/test ☐ deb repository 'deb [arch=amd64] https://example.com nocturnal main' is not added"
+    assert_line -n 1 "scripts/test ⚠ deb repository 'deb [arch=amd64] https://example.com nocturnal main' could be added by root only"
+    assert_line -n 2 "scripts/test 💡 Try again as root"
+}
+
+@test 'src/packages.sh apt_add repository key adding fail test' {
+    function apt-add-repository() {
+        echo 'Help'
+    }
+    export -f apt-add-repository
+
+    function apt-key() {
+        case "$1" in
+        -h) echo 'Help' ;;
+        add)
+            echo "No key at '$2'"
+            return 1
+            ;;
+        esac
+    }
+    export -f apt-key
+
+    function is_root() {
+        return 0
+    }
+    export -f is_root
+
+    function curl() {
+        return 1
+    }
+    export -f curl
+
+    run apt_add 'deb [arch=amd64] https://example.com nocturnal main' 'https://example.com/no-key'
+
+    assert_failure
+    assert_line -n 0 "scripts/test … deb repository 'deb [arch=amd64] https://example.com nocturnal main' adding"
+    assert_line -n 1 "No key at '-'"
+    assert_line -n 2 "scripts/test ☒ deb repository key URL 'https://example.com/no-key' adding failed"
+}
+
+@test 'src/packages.sh apt_add repository adding fail test' {
+    function apt-add-repository() {
+        case "$1" in
+        -h) echo ;;
+        *)
+            echo "Error adding '$1'"
+            return 1
+            ;;
+        esac
+    }
+    export -f apt-add-repository
+
+    function apt-key() {
+        echo
+    }
+    export -f apt-key
+
+    function is_root() {
+        return 0
+    }
+    export -f is_root
+
+    function curl() {
+        return 0
+    }
+    export -f curl
+
+    run apt_add 'deb [arch=amd64] https://example.com nocturnal main' 'https://example.com/gpg'
+
+    assert_failure
+    assert_line -n 0 "scripts/test … deb repository 'deb [arch=amd64] https://example.com nocturnal main' adding"
+    assert_line -n 1 "Error adding 'deb [arch=amd64] https://example.com nocturnal main'"
+    assert_line -n 2 "scripts/test ☒ deb repository 'deb [arch=amd64] https://example.com nocturnal main' adding failed"
+}
+
+@test 'src/packages.sh apt_add package installation success test' {
+    function apt-add-repository() {
+        echo
+    }
+    export -f apt-add-repository
+
+    function apt-key() {
+        echo
+    }
+    export -f apt-key
+
+    function is_root() {
+        return 0
+    }
+    export -f is_root
+
+    function curl() {
+        return 0
+    }
+    export -f curl
+
+    run apt_add 'deb [arch=amd64] https://example.com nocturnal main' 'https://example.com/gpg'
+
+    assert_success
+    assert_line -n 0 "scripts/test … deb repository 'deb [arch=amd64] https://example.com nocturnal main' adding"
+    assert_line -n 1 "scripts/test 🗹 deb repository 'deb [arch=amd64] https://example.com nocturnal main' added"
+}
+
 @test 'src/packages.sh pip_install without parameters test' {
     run pip_install
 
@@ -563,7 +728,7 @@ setup() {
 
     assert_failure
     assert_line -n 0 "scripts/test ☐ Package 'nonsense' is not installed"
-    assert_line -n 1 "scripts/test ⚠ Package 'nonsense' should be installed by root only"
+    assert_line -n 1 "scripts/test ⚠ Package 'nonsense' could be installed by root only"
     assert_line -n 2 "scripts/test 💡 Try again as root"
 }
 
