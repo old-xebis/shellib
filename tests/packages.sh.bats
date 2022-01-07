@@ -542,10 +542,10 @@ setup() {
     }
     export -f curl
 
-    run curl2bash_install 'sudo=https://example.com/curl_install.sh'
+    run curl2bash_install 'bats=https://example.com/curl_install.sh'
 
     assert_success
-    assert_output "scripts/test 🗹 Package 'sudo' already installed"
+    assert_output "scripts/test 🗹 Package 'bats' already installed"
 }
 
 @test 'src/packages.sh curl2bash_install package as non-root test' {
