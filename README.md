@@ -47,11 +47,15 @@ The goal of the library is to have a small yet useful set of functions. It is **
 ### Functions
 
 - `get_version`: Output Shellib version to `stdout`
-- `is_root`: Return boolean status, if the current user is root, or not
+- `is_root`: Return boolean status, if the current user is root, or not (idiomatic `[ "$EUID" -ne 0 ]` is not easily testable as `$EUID` is readonly)
 - `event 'message' ['level' ['symbol' ['command']]]`: Send "command symbol message" to `stderr`, default `level` = `$level_info`, default `symbol` depends on `level` (`$level_err` ✗, `$level_sec` ☠, `$level_warn` ⚠, `$level_notice` 🛈, default `$level_info` ✓), and default `command` is `$0`
   - `err`, `sec`, `warn`, `notice`, and `info` functions - `func 'message' ['symbol' ['command']]`: Wrappers for each level, default `symbol` depends on `level`, and default `command` is `$0`
-- `pkgs install 'man:pkg1' ['man:pkg2' [...]]`: Install packages package list formatted as `man:pkg`, where `man` is a supported package manager, and `pkg` is a package to install
-  - Supported package managers: `apt` for deb packages by `apt`, `pip` for Python packages by `pip3`, `npm` for npm packages by `npm`, `snap` for Snap packages
+- `pkgs install 'man:pkg1' ['man:pkg2' [...]]`: Install packages package list formatted as `man:pkg`, where `man` is a supported package manager, and `pkg` is a package to install, supported package managers:
+  - `apt` for deb packages by `apt`
+  - `pip` for Python packages by `pip3`
+  - `npm` for npm packages by `npm`
+  - `snap` for Snap packages
+  - `curl2bash` for package specification `command=URL` - if command exists then the package is marked as installed, if doesn't it is installed source by `curl -s "$URL" | bash`
 
 ### Constants
 

@@ -176,9 +176,57 @@ function snap_install() {
     fi
 }
 
+# Install package by curl to bash
+#   $1 ... Package specification formatted as 'command=URL'
+#          If command exists then package is marked as installed else is installed from URL
+# Stderr: events
+# Status: "$status_ok" on success, one of "$status_*" otherwise
+# Side effects: package is installed
+function curl2bash_install() {
+    local command
+    local source
+
+    if [ -z "${1:-}" ]; then
+        err 'Missing package specification'
+        return "$status_err"
+    fi
+
+    if ! [[ "$1" =~ ^[^=]+=[^=]+$ ]]; then
+        err "Wrong package specification format '$1', should be 'command=source'"
+        return "$status_err"
+    fi
+
+    if ! curl -V &>/dev/null; then
+        err 'curl not found'
+        return "$status_err"
+    fi
+
+    command="${1%%=*}"
+    source="${1#*=}"
+
+    if [ "$(type -t "$command" 2>/dev/null)" == 'file' ]; then
+        info "Package '$command' already installed" "$symbol_done"
+    else
+        if is_root; then
+            info "Package '$command' installation" "$symbol_doing"
+            if curl -s "$source" | bash; then
+                info "Package '$command' installed" "$symbol_done"
+            else
+                err "Package '$command' installation failed" "$symbol_failed"
+                return "$status_err"
+            fi
+        else
+            info "Package '$command' is not installed" "$symbol_todo"
+            warn "Package '$command' should be installed by root only"
+            info 'Try again as root' "$symbol_tip"
+            return "$status_err"
+        fi
+    fi
+}
+
 # Install a package
 #   $1 ... command to execute, only 'install' supported
-#   $2 ... Package, formatted as 'manager:package'
+#   $2 ... Package formatted as 'manager:package'
 # Stderr: events
 # Status: "$status_ok" on success, one of "$status_*" otherwise
 # Side effects: package is installed
@@ -222,10 +270,10 @@ function pkg() {
 
 # Install a list of packages
 #   $1 ... command to execute, only 'install' supported
-#   $2 ... 1st package, formatted as 'manager:package'
-#   [$3] ... 2nd package, formatted as 'manager:package'
+#   $2 ... 1st package formatted as 'manager:package'
+#   [$3] ... 2nd package formatted as 'manager:package'
 #   ...
-#   [$n] ... nth package, formatted as 'manager:package'
+#   [$n] ... nth package formatted as 'manager:package'
 # Stderr: events
 # Status: "$status_ok" on success, one of "$status_*" otherwise
 # Side effects: packages are installed
