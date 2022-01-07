@@ -63,7 +63,7 @@ release:
     entrypoint: [""]
   before_script:
     - apt-get update && apt-get upgrade -y
-    - npm install -g semantic-release @semantic-release/gitlab @semantic-release/github @semantic-release/git @semantic-release/changelog @semantic-release/exec
+    - npm install -g semantic-release @semantic-release/gitlab @semantic-release/git @semantic-release/changelog @semantic-release/exec
   script:
     - npx semantic-release
   rules:
