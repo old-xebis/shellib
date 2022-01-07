@@ -56,6 +56,7 @@ The goal of the library is to have a small yet useful set of functions. It is **
   - `npm` for npm packages by `npm`
   - `snap` for Snap packages
   - `curl2bash` for package specification `command=URL` - if command exists then the package is marked as installed, if doesn't it is installed source by `curl -s "$URL" | bash`
+- `apt_add 'repository specification' 'repository_key_URL'`: Add apt repository by apt, equivalent to `curl -fsSL 'repository_key_URL' | apt-key add - && apt-add-repository 'repository specification' && apt-get update`
 
 ### Constants
 
