@@ -1,3 +1,10 @@
+# [0.11.0](https://gitlab.com/xebis/shellib/compare/v0.10.0...v0.11.0) (2022-01-07)
+
+
+### Features
+
+* add apt_add to add deb repository ([f4b22f0](https://gitlab.com/xebis/shellib/commit/f4b22f09f5b6412180f2556a5a5101c3ef056ffc))
+
 # [0.10.0](https://gitlab.com/xebis/shellib/compare/v0.9.0...v0.10.0) (2022-01-07)
 
 
