@@ -1,3 +1,10 @@
+## [0.11.3](https://gitlab.com/xebis/shellib/compare/v0.11.2...v0.11.3) (2022-01-08)
+
+
+### Bug Fixes
+
+* pkg shouldn't fail on package specification with colon ([7bbd880](https://gitlab.com/xebis/shellib/commit/7bbd880d796264f2c93321013db4a0867f5c8cac))
+
 ## [0.11.2](https://gitlab.com/xebis/shellib/compare/v0.11.1...v0.11.2) (2022-01-08)
 
 
