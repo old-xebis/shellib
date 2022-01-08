@@ -1,3 +1,10 @@
+## [0.11.2](https://gitlab.com/xebis/shellib/compare/v0.11.1...v0.11.2) (2022-01-08)
+
+
+### Bug Fixes
+
+* apt_add shouldn't fail on added repository ([7889d37](https://gitlab.com/xebis/shellib/commit/7889d37d8c856da2094138a8b54d0d839a7b3cb0))
+
 ## [0.11.1](https://gitlab.com/xebis/shellib/compare/v0.11.0...v0.11.1) (2022-01-08)
 
 
