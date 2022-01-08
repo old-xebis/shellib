@@ -221,6 +221,29 @@ setup() {
     assert_output 'scripts/test ✗ apt-add-repository or apt-key not found'
 }
 
+@test 'src/packages.sh apt_add added repository test' {
+    function apt-add-repository() {
+        echo 'Help'
+    }
+    export -f apt-add-repository
+
+    function apt-key() {
+        echo 'Help'
+        return 1
+    }
+    export -f apt-key
+
+    function grep() {
+        return 0
+    }
+    export -f grep
+
+    run apt_add 'deb [arch=amd64] https://example.com nocturnal main' 'https://example.com/gpg'
+
+    assert_success
+    assert_output "scripts/test 🗹 deb repository 'deb [arch=amd64] https://example.com nocturnal main' already added"
+}
+
 @test 'src/packages.sh apt_add repository as non-root test' {
     function apt-add-repository() {
         echo 'Help'
@@ -232,6 +255,11 @@ setup() {
         return 1
     }
     export -f apt-key
+
+    function grep() {
+        return 1
+    }
+    export -f grep
 
     function is_root() {
         return 1
@@ -265,6 +293,11 @@ setup() {
         esac
     }
     export -f apt-key
+
+    function grep() {
+        return 1
+    }
+    export -f grep
 
     function is_root() {
         return 0
@@ -309,6 +342,11 @@ setup() {
     }
     export -f apt-key
 
+    function grep() {
+        return 1
+    }
+    export -f grep
+
     function is_root() {
         return 0
     }
@@ -327,7 +365,7 @@ setup() {
     assert_line -n 2 "scripts/test ☒ deb repository 'deb [arch=amd64] https://example.com nocturnal main' adding failed"
 }
 
-@test 'src/packages.sh apt_add package installation success test' {
+@test 'src/packages.sh apt_add repository adding success test' {
     function apt-add-repository() {
         echo
     }
@@ -345,6 +383,11 @@ setup() {
         esac
     }
     export -f apt-key
+
+    function grep() {
+        return 1
+    }
+    export -f grep
 
     function is_root() {
         return 0
