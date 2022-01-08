@@ -72,7 +72,7 @@ function apt_add() {
         return "$status_err"
     fi
 
-    if ! apt-add-repository -h &>/dev/null || ! apt-key -h &>/dev/null; then
+    if ! apt-add-repository -h &>/dev/null || [ "$(apt-key -h)" == '' ]; then
         err 'apt-add-repository or apt-key not found'
         return "$status_err"
     fi
