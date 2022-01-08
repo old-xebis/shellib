@@ -77,24 +77,28 @@ function apt_add() {
         return "$status_err"
     fi
 
-    if is_root; then
-        info "deb repository '$repository' adding" "$symbol_doing"
-        if curl -fsSL "$key" | apt-key add -; then
-            if apt-add-repository "$repository"; then
-                info "deb repository '$repository' added" "$symbol_done"
+    if grep -F "$repository" /etc/apt/sources.list &>/dev/null; then
+        info "deb repository '$repository' already added" "$symbol_done"
+    else
+        if is_root; then
+            info "deb repository '$repository' adding" "$symbol_doing"
+            if curl -fsSL "$key" | apt-key add -; then
+                if apt-add-repository "$repository"; then
+                    info "deb repository '$repository' added" "$symbol_done"
+                else
+                    err "deb repository '$repository' adding failed" "$symbol_failed"
+                    return "$status_err"
+                fi
             else
-                err "deb repository '$repository' adding failed" "$symbol_failed"
+                err "deb repository key URL '$key' adding failed" "$symbol_failed"
                 return "$status_err"
             fi
         else
-            err "deb repository key URL '$key' adding failed" "$symbol_failed"
+            info "deb repository '$repository' is not added" "$symbol_todo"
+            warn "deb repository '$repository' could be added by root only"
+            info 'Try again as root' "$symbol_tip"
             return "$status_err"
         fi
-    else
-        info "deb repository '$repository' is not added" "$symbol_todo"
-        warn "deb repository '$repository' could be added by root only"
-        info 'Try again as root' "$symbol_tip"
-        return "$status_err"
     fi
 }
 
