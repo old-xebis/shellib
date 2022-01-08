@@ -291,7 +291,7 @@ function pkg() {
             err 'Missing package to install'
             return "$status_err"
         fi
-        if ! [[ "$2" =~ ^[^:]+:[^:]+$ ]]; then
+        if ! [[ "$2" =~ ^[^:]+:.+$ ]]; then
             err "Wrong package format '$2', should be 'manager:package'"
             return "$status_err"
         fi
