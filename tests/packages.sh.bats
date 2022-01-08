@@ -879,6 +879,18 @@ setup() {
     assert_output "scripts/test ✗ Wrong package format 'package', should be 'manager:package'"
 }
 
+@test 'src/packages.sh pkg package format with multiple colons install success test' {
+    function man_install() {
+        info "Package ${1%%=*}"
+    }
+    export -f man_install
+
+    run pkg install 'man:pkg=https://url'
+
+    assert_success
+    assert_output 'scripts/test ✓ Package pkg'
+}
+
 @test 'src/packages.sh pkg install success test' {
     function man_install() {
         info "Package ${1:-}"
