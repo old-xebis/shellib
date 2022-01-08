@@ -1,3 +1,10 @@
+## [0.11.1](https://gitlab.com/xebis/shellib/compare/v0.11.0...v0.11.1) (2022-01-08)
+
+
+### Bug Fixes
+
+* apt_add fails on apt-key not found even if it is present ([a1fcfa2](https://gitlab.com/xebis/shellib/commit/a1fcfa22766ae16b0a7b1b5b39c746f3a96444c3))
+
 # [0.11.0](https://gitlab.com/xebis/shellib/compare/v0.10.0...v0.11.0) (2022-01-07)
 
 
