@@ -229,6 +229,7 @@ setup() {
 
     function apt-key() {
         echo 'Help'
+        return 1
     }
     export -f apt-key
 
@@ -253,7 +254,10 @@ setup() {
 
     function apt-key() {
         case "$1" in
-        -h) echo 'Help' ;;
+        -h)
+            echo 'Help'
+            return 1
+            ;;
         add)
             echo "No key at '$2'"
             return 1
@@ -293,7 +297,15 @@ setup() {
     export -f apt-add-repository
 
     function apt-key() {
-        echo
+        case "$1" in
+        -h)
+            echo 'Help'
+            return 1
+            ;;
+        add)
+            echo
+            ;;
+        esac
     }
     export -f apt-key
 
@@ -322,7 +334,15 @@ setup() {
     export -f apt-add-repository
 
     function apt-key() {
-        echo
+        case "$1" in
+        -h)
+            echo 'Help'
+            return 1
+            ;;
+        add)
+            echo
+            ;;
+        esac
     }
     export -f apt-key
 
