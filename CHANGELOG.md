@@ -1,3 +1,10 @@
+## [0.11.4](https://gitlab.com/xebis/shellib/compare/v0.11.3...v0.11.4) (2022-08-15)
+
+
+### Bug Fixes
+
+* skip pre-commit hook variable doesn't work without gitlab token ([830db83](https://gitlab.com/xebis/shellib/commit/830db83fdbf591033fa0108752f51a635ee7f3ce))
+
 ## [0.11.3](https://gitlab.com/xebis/shellib/compare/v0.11.2...v0.11.3) (2022-01-08)
 
 
