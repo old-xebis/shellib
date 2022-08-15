@@ -14,7 +14,7 @@
 
 Simple Bash scripting library.
 
-The goal of the library is to have a small yet useful set of functions. It is **not** intended to obscure or replace Bash idioms.
+Easy-to-use yet powerful library set of functions for Bash. The goal was **not** to replace traditional idioms but to provide a toolbox to boost your scripting productivity.
 
 **The project is under active development.**
 
@@ -55,7 +55,7 @@ The goal of the library is to have a small yet useful set of functions. It is **
   - `pip` for Python packages by `pip3`
   - `npm` for npm packages by `npm`
   - `snap` for Snap packages
-  - `curl2bash` for package specification `command=URL` - if command exists then the package is marked as installed, if doesn't it is installed source by `curl -s "$URL" | bash`
+  - `curl2bash` for package specification `command=URL` - if a command exists, then the package is marked as installed. If doesn't, it is installed source by `curl -s "$URL" | bash`
 - `apt_add 'repository specification' 'repository_key_URL'`: Add apt repository by apt, equivalent to `curl -fsSL 'repository_key_URL' | apt-key add - && apt-add-repository 'repository specification' && apt-get update`
 
 ### Constants
