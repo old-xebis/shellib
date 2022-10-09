@@ -24,7 +24,7 @@ fi
 # shellcheck disable=SC2034
 {
     # Bumped up automatically by calling scripts/set-ver
-    readonly shellib_version="0.0.0+test-set_shellib_version"
+    readonly shellib_version="0.11.5"
 } 2>/dev/null
 
 # Functions

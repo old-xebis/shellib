@@ -1,3 +1,10 @@
+## [0.11.5](https://gitlab.com/xebis/shellib/compare/v0.11.4...v0.11.5) (2022-10-09)
+
+
+### Bug Fixes
+
+* version bump is written to incorrect file ([0c99860](https://gitlab.com/xebis/shellib/commit/0c9986059d0e2b6460c84e3c61ec01f98f5c75ee))
+
 ## [0.11.4](https://gitlab.com/xebis/shellib/compare/v0.11.3...v0.11.4) (2022-08-15)
 
 
