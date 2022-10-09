@@ -17,7 +17,7 @@ plugins:
   - - "@semantic-release/git"
     - assets:
         - CHANGELOG.md
-        - src/shellib.sh
+        - shellib.sh
   - - "@semantic-release/gitlab"
     - assets:
         path: build/*.deb
