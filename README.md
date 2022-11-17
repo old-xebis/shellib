@@ -14,7 +14,7 @@
 
 Simple Bash scripting library.
 
-Easy-to-use yet powerful library set of functions for Bash. The goal was **not** to replace traditional idioms but to provide a toolbox to boost your scripting productivity.
+Easy-to-use yet powerful library set of functions for Bash. The goal is **not** to replace traditional idioms but to provide a toolbox to boost your scripting productivity.
 
 **The project is under active development.**
 

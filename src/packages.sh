@@ -40,7 +40,7 @@ function apt_install() {
                 fi
             else
                 info "deb package '$package' is not installed" "$symbol_todo"
-                warn "deb package '$package' could be installed by root only"
+                warn "deb package '$package' should be installed by root only"
                 info 'Try again as root' "$symbol_tip"
                 return "$status_err"
             fi
@@ -95,7 +95,7 @@ function apt_add() {
             fi
         else
             info "deb repository '$repository' is not added" "$symbol_todo"
-            warn "deb repository '$repository' could be added by root only"
+            warn "deb repository '$repository' should be added by root only"
             info 'Try again as root' "$symbol_tip"
             return "$status_err"
         fi
@@ -267,7 +267,7 @@ function curl2bash_install() {
             fi
         else
             info "Package '$command' is not installed" "$symbol_todo"
-            warn "Package '$command' could be installed by root only"
+            warn "Package '$command' should be installed by root only"
             info 'Try again as root' "$symbol_tip"
             return "$status_err"
         fi
