@@ -1,3 +1,10 @@
+## [0.11.6](https://gitlab.com/xebis/shellib/compare/v0.11.5...v0.11.6) (2022-11-17)
+
+
+### Bug Fixes
+
+* wording ([159d79c](https://gitlab.com/xebis/shellib/commit/159d79c750c8bdbb4067873cda9541217efcb643))
+
 ## [0.11.5](https://gitlab.com/xebis/shellib/compare/v0.11.4...v0.11.5) (2022-10-09)
 
 
