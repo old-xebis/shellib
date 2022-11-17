@@ -109,7 +109,7 @@ setup() {
 
     assert_failure
     assert_line -n 0 "scripts/test ☐ deb package 'package' is not installed"
-    assert_line -n 1 "scripts/test ⚠ deb package 'package' could be installed by root only"
+    assert_line -n 1 "scripts/test ⚠ deb package 'package' should be installed by root only"
     assert_line -n 2 "scripts/test 💡 Try again as root"
 }
 
@@ -270,7 +270,7 @@ setup() {
 
     assert_failure
     assert_line -n 0 "scripts/test ☐ deb repository 'deb [arch=amd64] https://example.com nocturnal main' is not added"
-    assert_line -n 1 "scripts/test ⚠ deb repository 'deb [arch=amd64] https://example.com nocturnal main' could be added by root only"
+    assert_line -n 1 "scripts/test ⚠ deb repository 'deb [arch=amd64] https://example.com nocturnal main' should be added by root only"
     assert_line -n 2 "scripts/test 💡 Try again as root"
 }
 
@@ -791,7 +791,7 @@ setup() {
 
     assert_failure
     assert_line -n 0 "scripts/test ☐ Package 'nonsense' is not installed"
-    assert_line -n 1 "scripts/test ⚠ Package 'nonsense' could be installed by root only"
+    assert_line -n 1 "scripts/test ⚠ Package 'nonsense' should be installed by root only"
     assert_line -n 2 "scripts/test 💡 Try again as root"
 }
 
