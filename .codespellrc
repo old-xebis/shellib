@@ -1,0 +1,4 @@
+[codespell]
+skip = CHANGELOG.md
+count =
+quiet-level = 3

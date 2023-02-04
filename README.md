@@ -1,6 +1,8 @@
 <!-- omit in toc -->
 # Shellib
 
+<!-- cSpell:ignore EUID, pkgs, mktemp, dpkg, gitmodules, pipefail, jumanjihouse, shellcheck, shellcheckrc, mvdan, shfmt, koalaman -->
+
 ![GitHub top language](https://img.shields.io/github/languages/top/xebis/shellib)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
