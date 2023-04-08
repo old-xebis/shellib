@@ -12,5 +12,6 @@ setup() {
 }
 
 @test 'scripts/pack test' {
-    skip
+    #skip
+    true
 }
