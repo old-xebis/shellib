@@ -49,10 +49,10 @@ Easy-to-use yet powerful library set of functions for Bash. The goal is **not** 
 ### Functions
 
 - `get_version`: Output Shellib version to `stdout`
-- `is_root`: Return boolean status, if the current user is root, or not (idiomatic `[ "$EUID" -ne 0 ]` is not easily testable as `$EUID` is readonly)
-- `event 'message' ['level' ['symbol' ['command']]]`: Send "command symbol message" to `stderr`, default `level` = `$level_info`, default `symbol` depends on `level` (`$level_err` ✗, `$level_sec` ☠, `$level_warn` ⚠, `$level_notice` 🛈, default `$level_info` ✓), and default `command` is `$0`
-  - `err`, `sec`, `warn`, `notice`, and `info` functions - `func 'message' ['symbol' ['command']]`: Wrappers for each level, default `symbol` depends on `level`, and default `command` is `$0`
-- `pkgs install 'man:pkg1' ['man:pkg2' [...]]`: Install packages package list formatted as `man:pkg`, where `man` is a supported package manager, and `pkg` is a package to install, supported package managers:
+- `is_root`: Return boolean status, if the current user is a root, or not (idiomatic `[ "$EUID" -ne 0 ]` is not easily testable as `$EUID` is read-only)
+- `event 'message' ['level' ['symbol' ['command']]]`: Send "command symbol message" to `stderr`, default `level` = `$level_info`, default `symbol` depends on the `level` (`$level_err` ✗, `$level_sec` ☠, `$level_warn` ⚠, `$level_notice` 🛈, default `$level_info` ✓), and default `command` is `$0`
+  - `err`, `sec`, `warn`, `notice`, and `info` functions - `func 'message' ['symbol' ['command']]`: Wrappers for each level, default `symbol` depends on the `level`, and default `command` is `$0`
+- `pkgs install 'man:pkg1' ['man:pkg2' [...]]`: Install packages from the package list formatted as `man:pkg`, where `man` is a supported package manager, and `pkg` is a package to install, supported package managers:
   - `apt` for deb packages by `apt`
   - `pip` for Python packages by `pip3`
   - `npm` for npm packages by `npm`
