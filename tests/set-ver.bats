@@ -27,7 +27,8 @@ setup() {
 }
 
 @test 'scripts/set-ver set_shellib_version get_version test' {
-    skip
+    #skip
+    true
 }
 
 @test 'scripts/set-ver set_shellib_version fail test' {

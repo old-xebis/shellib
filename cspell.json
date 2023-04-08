@@ -1,15 +1,17 @@
 {
-    "version": "0.2",
-    "language": "en",
-    "words": [
-        "codespell",
-        "gitleaks",
-        "gitlint",
-        "markdownlint",
-        "roadmap",
-        "shellib",
-        "shfmt",
-        "shellcheck"
-    ],
-    "flagWords": []
+  "flagWords": [],
+  "language": "en",
+  "version": "0.2",
+  "words": [
+    "Bružina",
+    "codespell",
+    "gitleaks",
+    "gitlint",
+    "markdownlint",
+    "roadmap",
+    "shellib",
+    "shfmt",
+    "shellcheck",
+    "Xebis"
+  ]
 }
