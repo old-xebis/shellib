@@ -1,0 +1,11 @@
+# Run with each push - should be fast but representative, e.g. carefully
+# selected representative subset of unit, integration, and perhaps other fast
+# tests
+
+fast.set
+
+events.sh.bats
+packages.sh.bats
+process.sh.bats
+shellib.sh.bats
+system.sh.bats
