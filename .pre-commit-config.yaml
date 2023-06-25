@@ -35,11 +35,14 @@ repos:
       - id: forbid-binary
       - id: git-check
       - id: git-dirty
+      - id: protect-first-parent
       - id: script-must-have-extension
         exclude: .*\.bats$
       - id: script-must-not-have-extension
   - repo: meta
     hooks:
+      - id: check-hooks-apply
+        stages: [manual]
       - id: check-useless-excludes
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.4
@@ -65,7 +68,7 @@ repos:
         entry: (?i)#\s*\b(wip|todo|tbd)\b
         language: pygrep
         types: [text]
-        stages: [push, manual]
+        stages: [manual]
       - id: shfmt
         name: shfmt
         entry: shfmt -i 4
