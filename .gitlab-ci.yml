@@ -74,7 +74,7 @@ lint-merge-request:
   extends: [.test]
   before_script:
     - *default_before_script
-    - apk --no-cache add bats git
+    - apk --no-cache add bats git grep
 
 .test-ubuntu:
   extends: [.test]
