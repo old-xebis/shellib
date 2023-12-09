@@ -159,11 +159,10 @@ Please read [CONTRIBUTING](CONTRIBUTING.md) for details on our code of conduct, 
 
 To test your changes in a different environment, you might try to run a Docker container and test it from there.
 
-Run the container:
+Run a disposal Docker container:
 
-```bash
-sudo docker run -it --rm -v "$(pwd)":/shellib alpine:latest # Create disposal docker container
-```
+- `sudo docker run -it --rm -v "$(pwd)":/shellib alpine:latest`
+- `sudo docker run -it --rm -v "$(pwd)":/shellib --entrypoint bash node:latest`
 
 In the container:
 

@@ -9,3 +9,4 @@ packages.sh.bats
 process.sh.bats
 shellib.sh.bats
 system.sh.bats
+test.bats
