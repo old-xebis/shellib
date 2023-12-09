@@ -6,9 +6,6 @@ reduced.set
 bootstrap.bats
 build.bats
 pack.bats
-pre-commit.bats
-pre-push.bats
 set-ver.bats
 setup.bats
-test.bats
 update.bats
